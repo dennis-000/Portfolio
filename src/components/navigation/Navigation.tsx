@@ -4,14 +4,11 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Command } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePortfolioStore } from "@/store/portfolio";
 import { NAV_ITEMS, PERSONAL } from "@/lib/data";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-
-const PRIMARY_LINKS = NAV_ITEMS.slice(0, 6);  // Engineering → Projects
-const SECONDARY_LINKS = NAV_ITEMS.slice(6);    // Blog, Contact
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
@@ -20,7 +17,7 @@ export function Navigation() {
   const { setCommandPaletteOpen, accentColor, accentRgb } = usePortfolioStore();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => setScrolled(window.scrollY > 30);
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -40,73 +37,79 @@ export function Navigation() {
     return () => window.removeEventListener("keydown", handler);
   }, [setCommandPaletteOpen]);
 
-  // Prevent body scroll when mobile open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
+  const PRIMARY_NAV = NAV_ITEMS.slice(0, 7);
+
   return (
     <>
       <motion.header
-        initial={{ y: -72, opacity: 0 }}
+        initial={{ y: -90, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          scrolled
-            ? "glass-strong shadow-lg shadow-black/10 py-3 border-b border-[var(--border)]/60"
-            : "py-5"
-        )}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] glass-strong shadow-lg shadow-black/10 transition-all duration-300"
       >
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+        <nav className="w-full max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20 flex items-center justify-between gap-8" style={{ height: "85px" }}>
 
-          {/* ─── Logo ─── */}
+          {/* ── Logo ── */}
           <Link
             href="/"
-            className="group flex items-center gap-2.5 shrink-0"
-            aria-label="Dennis Opoku Asiedu — Home"
+            className="group flex items-center gap-3 shrink-0"
           >
-            <motion.span
-              whileHover={{ scale: 1.08 }}
-              transition={{ type: "spring", stiffness: 400, damping: 20 }}
-              className="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold text-white shadow-sm"
-              style={{ backgroundColor: accentColor }}
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-bold text-white text-lg transition-transform duration-300 group-hover:scale-105"
+              style={{
+                backgroundColor: accentColor,
+                boxShadow: `0 4px 18px rgba(var(--accent-rgb), 0.35)`,
+              }}
             >
               D
-            </motion.span>
-            <span className="hidden sm:block text-sm font-semibold text-[var(--text)] tracking-tight">
-              {PERSONAL.shortName}
-            </span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[15px] font-bold text-[var(--text)] tracking-wide leading-none">
+                Dennis Opoku
+              </span>
+              <span className="text-[10px] text-[var(--text-muted)] mt-1 font-medium">
+                Builder
+              </span>
+            </div>
           </Link>
 
-          {/* ─── Desktop Nav ─── */}
-          <ul className="hidden lg:flex items-center gap-0.5" role="navigation" aria-label="Main navigation">
-            {PRIMARY_LINKS.map((item) => {
+          {/* ── Desktop Links ── */}
+          <ul
+            className="hidden xl:flex items-center gap-2"
+            role="navigation"
+            aria-label="Main navigation"
+          >
+            {PRIMARY_NAV.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
               return (
                 <li key={item.href}>
                   <Link
                     href={item.href}
                     className={cn(
-                      "relative flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg transition-all duration-200",
+                      "relative flex items-center gap-2 px-4.5 py-3 text-[15px] rounded-xl transition-all duration-200 font-bold whitespace-nowrap",
                       isActive
-                        ? "text-[var(--text)] font-medium"
-                        : "text-[var(--text-muted)] hover:text-[var(--text)]"
+                        ? "text-[var(--text)]"
+                        : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-white/5"
                     )}
                   >
                     {isActive && (
                       <motion.span
                         layoutId="nav-pill"
-                        className="absolute inset-0 rounded-lg"
-                        style={{ backgroundColor: `rgba(${accentRgb}, 0.12)` }}
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                        className="absolute inset-0 rounded-xl"
+                        style={{ backgroundColor: `rgba(${accentRgb}, 0.15)` }}
+                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
                       />
                     )}
                     <span className="relative z-10">{item.label}</span>
                     {isActive && (
-                      <span
-                        className="relative z-10 w-1 h-1 rounded-full"
+                      <motion.span
+                        layoutId="nav-dot"
+                        className="relative z-10 w-1.5 h-1.5 rounded-full animate-pulse"
                         style={{ backgroundColor: accentColor }}
                       />
                     )}
@@ -116,27 +119,37 @@ export function Navigation() {
             })}
           </ul>
 
-          {/* ─── Right actions ─── */}
-          <div className="flex items-center gap-2">
-            {/* Search / command */}
+          {/* ── Right actions ── */}
+          <div className="flex items-center gap-3 sm:gap-5">
+            {/* Search command bar */}
             <button
               onClick={() => setCommandPaletteOpen(true)}
-              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-lg glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--accent)]/40 transition-all duration-200"
+              className="sm:hidden p-2.5 rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] transition-all cursor-pointer"
+              aria-label="Open search"
+            >
+              <Search size={18} />
+            </button>
+
+            <button
+              onClick={() => setCommandPaletteOpen(true)}
+              className="hidden sm:flex items-center justify-between gap-3 w-48 lg:w-56 px-4 py-2.5 text-sm rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--accent)]/50 transition-all duration-205 cursor-pointer"
               aria-label="Open command palette"
             >
-              <Command size={11} />
-              <span className="hidden md:block">Search</span>
-              <kbd className="hidden md:block ml-0.5 text-[9px] opacity-50 font-mono">⌘K</kbd>
+              <div className="flex items-center gap-2">
+                <Search size={16} />
+                <span>Search...</span>
+              </div>
+              <kbd className="text-[10px] opacity-60 font-mono px-1.5 py-0.5 rounded bg-white/10 border border-white/5">⌘K</kbd>
             </button>
 
             {/* Theme toggle */}
-            <ThemeToggle className="hidden sm:inline-flex" />
+            <ThemeToggle className="scale-110" />
 
-            {/* CTA button */}
+            {/* CTA */}
             <Link
               href="/contact"
-              className="hidden md:inline-flex items-center px-4 py-1.5 text-sm font-semibold rounded-lg text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.03]"
-              style={{ backgroundColor: accentColor }}
+              className="hidden md:inline-flex items-center px-6 py-3 text-base font-bold rounded-xl text-white transition-all duration-200 hover:opacity-95 hover:scale-[1.03] shadow-md whitespace-nowrap"
+              style={{ backgroundColor: accentColor, boxShadow: `0 4px 18px ${accentColor}40` }}
             >
               Let&apos;s talk
             </Link>
@@ -145,84 +158,85 @@ export function Navigation() {
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2 rounded-lg glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] transition-all"
+              className="xl:hidden p-2.5 rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] transition-all"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
             >
-              {mobileOpen ? <X size={17} /> : <Menu size={17} />}
+              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
             </motion.button>
           </div>
         </nav>
       </motion.header>
 
-      {/* ─── Mobile Drawer ─── */}
+      {/* ── Mobile Drawer ── */}
       <AnimatePresence>
         {mobileOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               key="backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm"
+              className="fixed inset-0 z-40 bg-black/75 backdrop-blur-md"
               onClick={() => setMobileOpen(false)}
             />
 
-            {/* Drawer panel */}
             <motion.div
               key="drawer"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
-              className="fixed right-0 top-0 bottom-0 z-50 w-72 flex flex-col glass-strong border-l border-[var(--border)]"
+              className="fixed right-0 top-0 bottom-0 z-50 w-80 flex flex-col glass-strong border-l border-[var(--border)]"
             >
               {/* Drawer header */}
-              <div className="flex items-center justify-between p-5 border-b border-[var(--border)]/60">
-                <span className="text-sm font-semibold text-[var(--text)]">Menu</span>
+              <div className="flex items-center justify-between px-6 py-5 border-b border-[var(--border)]/60">
+                <div>
+                  <p className="text-base font-bold text-[var(--text)]">Dennis Opoku</p>
+                  <p className="text-xs text-[var(--text-muted)]">Builder · Creator · Founder</p>
+                </div>
                 <div className="flex items-center gap-2">
                   <ThemeToggle />
                   <button
                     onClick={() => setMobileOpen(false)}
-                    className="p-1.5 rounded-lg hover:bg-white/5 text-[var(--text-muted)] hover:text-[var(--text)] transition-all"
+                    className="p-2 rounded-xl hover:bg-white/8 text-[var(--text-muted)] hover:text-[var(--text)] transition-all"
                     aria-label="Close menu"
                   >
-                    <X size={17} />
+                    <X size={20} />
                   </button>
                 </div>
               </div>
 
               {/* Nav links */}
-              <nav className="flex-1 overflow-y-auto py-4 px-3">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] px-3 mb-2">
-                  Explore
+              <nav className="flex-1 overflow-y-auto px-5 py-6">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-muted)] px-4 mb-4">
+                  Navigate
                 </p>
-                <ul className="space-y-0.5 mb-6">
+                <ul className="space-y-2.5">
                   {NAV_ITEMS.map((item, i) => {
                     const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
                     return (
                       <motion.li
                         key={item.href}
-                        initial={{ opacity: 0, x: 16 }}
+                        initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.04, duration: 0.25 }}
+                        transition={{ delay: i * 0.04, duration: 0.22 }}
                       >
                         <Link
                           href={item.href}
                           className={cn(
-                            "flex items-center justify-between px-3 py-2.5 rounded-xl text-sm transition-all duration-200",
+                            "flex items-center justify-between px-5 py-4.5 rounded-xl text-[17px] transition-all duration-200 font-bold",
                             isActive
-                              ? "text-[var(--text)] font-medium"
+                              ? "text-[var(--text)]"
                               : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-white/5"
                           )}
-                          style={isActive ? { backgroundColor: `${item.accent}14` } : {}}
+                          style={isActive ? { backgroundColor: `${item.accent}20` } : {}}
                         >
                           <span>{item.label}</span>
                           {isActive && (
                             <span
-                              className="w-1.5 h-1.5 rounded-full"
+                              className="w-2.5 h-2.5 rounded-full"
                               style={{ backgroundColor: item.accent }}
                             />
                           )}
@@ -233,14 +247,14 @@ export function Navigation() {
                 </ul>
               </nav>
 
-              {/* Drawer CTA */}
-              <div className="p-4 border-t border-[var(--border)]/60">
+              {/* Drawer footer */}
+              <div className="px-6 py-6 border-t border-[var(--border)]/60">
                 <Link
                   href="/contact"
-                  className="flex items-center justify-center px-4 py-3 text-sm font-semibold rounded-xl text-white transition-all hover:opacity-90"
+                  className="flex items-center justify-center px-6 py-4.5 text-[16px] font-bold rounded-xl text-white transition-all hover:opacity-90 shadow-lg"
                   style={{ backgroundColor: accentColor }}
                 >
-                  Let&apos;s talk
+                  Let&apos;s talk →
                 </Link>
               </div>
             </motion.div>

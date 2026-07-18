@@ -1,9 +1,10 @@
 "use client";
 
 import { Suspense, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float, Environment, MeshDistortMaterial, Sphere, Box, Torus, Icosahedron, Stars } from "@react-three/drei";
 import * as THREE from "three";
+import { Code2 } from "lucide-react";
 import { usePortfolioStore } from "@/store/portfolio";
 import { DISCIPLINES } from "@/lib/data";
 import { useRouter } from "next/navigation";
@@ -71,19 +72,19 @@ function DisciplineObject({
 // Particle field background
 function ParticleField() {
   const points = useRef<THREE.Points>(null);
-  const count = 600;
+  const count = 1200; // Increased count since particles cover the whole screen now!
 
   const positions = new Float32Array(count * 3);
   for (let i = 0; i < count; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 20;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
+    positions[i * 3] = (Math.random() - 0.5) * 24; // Wider range
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 16;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 16;
   }
 
   useFrame((state) => {
     if (!points.current) return;
-    points.current.rotation.y = state.clock.elapsedTime * 0.015;
-    points.current.rotation.x = state.clock.elapsedTime * 0.008;
+    points.current.rotation.y = state.clock.elapsedTime * 0.012;
+    points.current.rotation.x = state.clock.elapsedTime * 0.006;
   });
 
   return (
@@ -91,7 +92,7 @@ function ParticleField() {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.025} color="#06b6d4" transparent opacity={0.4} sizeAttenuation />
+      <pointsMaterial size={0.03} color="#06b6d4" transparent opacity={0.55} sizeAttenuation />
     </points>
   );
 }
@@ -125,6 +126,20 @@ function CentralOrb() {
   );
 }
 
+// Responsive group that shifts elements to the right on desktop
+function ResponsiveInteractiveGroup({ children }: { children: React.ReactNode }) {
+  const { width } = useThree((state) => state.viewport);
+  const isDesktop = width > 9;
+  const positionX = isDesktop ? Math.min(width * 0.22, 2.6) : 0;
+  const scale = isDesktop ? Math.min(width * 0.1, 0.9) : 0.65;
+
+  return (
+    <group position={[positionX, 0, 0]} scale={scale}>
+      {children}
+    </group>
+  );
+}
+
 export function FloatingWorkspace() {
   const router = useRouter();
   const accentColor = usePortfolioStore((s) => s.accentColor);
@@ -138,18 +153,22 @@ export function FloatingWorkspace() {
         performance={{ min: 0.5 }}
       >
         <Suspense fallback={null}>
-          <Stars radius={80} depth={50} count={3000} factor={3} saturation={0} fade speed={0.5} />
+          <Stars radius={100} depth={60} count={4000} factor={3.5} saturation={0.1} fade speed={0.6} />
           <ambientLight intensity={0.15} />
           <directionalLight position={[5, 5, 5]} intensity={0.5} />
           <ParticleField />
-          <CentralOrb />
-          {DISCIPLINES.map((d) => (
-            <DisciplineObject
-              key={d.id}
-              discipline={d}
-              onClick={() => router.push(d.href)}
-            />
-          ))}
+          
+          <ResponsiveInteractiveGroup>
+            <CentralOrb />
+            {DISCIPLINES.map((d) => (
+              <DisciplineObject
+                key={d.id}
+                discipline={d}
+                onClick={() => router.push(d.href)}
+              />
+            ))}
+          </ResponsiveInteractiveGroup>
+          
           <Environment preset="city" />
         </Suspense>
       </Canvas>
@@ -161,40 +180,37 @@ export function FloatingWorkspace() {
 export function FloatingWorkspaceFallback() {
   return (
     <div className="absolute inset-0 flex items-center justify-center" aria-hidden="true">
-      <div className="relative w-64 h-64">
+      <div className="relative w-72 h-72">
         {DISCIPLINES.map((d, i) => {
           const angle = (i / DISCIPLINES.length) * Math.PI * 2;
-          const radius = 110;
+          const radius = 115;
           const x = Math.cos(angle) * radius;
           const y = Math.sin(angle) * radius;
 
           return (
             <div
               key={d.id}
-              className="absolute w-10 h-10 rounded-xl flex items-center justify-center text-lg animate-float"
+              className="absolute w-12 h-12 rounded-2xl flex items-center justify-center animate-float"
               style={{
-                left: `calc(50% + ${x}px - 20px)`,
-                top: `calc(50% + ${y}px - 20px)`,
-                backgroundColor: `${d.accent}22`,
-                border: `1px solid ${d.accent}44`,
+                left: `calc(50% + ${x}px - 24px)`,
+                top: `calc(50% + ${y}px - 24px)`,
+                backgroundColor: `${d.accent}20`,
+                border: `1px solid ${d.accent}50`,
                 animationDelay: `${i * 0.4}s`,
                 animationDuration: `${4 + i * 0.5}s`,
               }}
             >
-              <span
-                className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: d.accent }}
-              />
+              <Code2 size={18} color={d.accent} />
             </div>
           );
         })}
 
         {/* Center orb */}
         <div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full animate-pulse-glow"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full animate-pulse-glow"
           style={{
-            background: "radial-gradient(circle, rgba(6,182,212,0.4) 0%, transparent 70%)",
-            border: "1px solid rgba(6,182,212,0.3)",
+            background: "radial-gradient(circle, rgba(6,182,212,0.35) 0%, transparent 70%)",
+            border: "1px solid rgba(6,182,212,0.4)",
           }}
         />
       </div>

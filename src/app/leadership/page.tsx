@@ -14,41 +14,41 @@ const ACHIEVEMENTS = [
 
 export default function LeadershipPage() {
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <div className="max-w-5xl mx-auto px-4">
-        <div className="mb-16">
+    <div className="min-h-screen pt-52 sm:pt-56 lg:pt-64 pb-20">
+      <div className="w-full max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
+        <div className="mb-16 text-center flex flex-col items-center">
           <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#06b6d4" }}>
             Leadership
           </p>
-          <h1 className="text-4xl sm:text-5xl font-display font-bold text-gradient mb-6">
+          <h1 className="text-4xl sm:text-5xl font-display font-bold text-gradient mb-6 text-center">
             Beyond the keyboard.
           </h1>
-          <p className="text-lg text-[var(--text-muted)] max-w-2xl leading-relaxed">
+          <p className="text-lg text-[var(--text-muted)] max-w-2xl leading-relaxed mx-auto text-center">
             I invest in the ecosystem that made me. Speaking, mentoring, competing, and building community — one builder at a time.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto w-full">
           {ACHIEVEMENTS.map((group, i) => {
             const colors = ["#6366f1", "#8b5cf6", "#06b6d4", "#f59e0b"];
             const color = colors[i % colors.length];
             return (
               <div
                 key={group.category}
-                className="p-6 rounded-2xl glass border border-[var(--border)] hover:border-[var(--accent)]/30 transition-all duration-300"
+                className="p-6 rounded-2xl glass border border-[var(--border)] hover:border-[var(--accent)]/30 transition-all duration-300 text-center flex flex-col items-center"
                 style={{ "--accent": color } as React.CSSProperties}
               >
                 <h2
-                  className="text-xs font-bold uppercase tracking-widest mb-5"
+                  className="text-xs font-bold uppercase tracking-widest mb-5 text-center"
                   style={{ color }}
                 >
                   {group.category}
                 </h2>
-                <ul className="space-y-3">
+                <ul className="space-y-3 flex flex-col items-center">
                   {group.items.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm text-[var(--text-muted)]">
+                    <li key={item} className="flex items-center gap-2.5 text-sm text-[var(--text-muted)] text-center">
                       <span
-                        className="w-1.5 h-1.5 rounded-full mt-2 shrink-0"
+                        className="w-1.5 h-1.5 rounded-full shrink-0"
                         style={{ backgroundColor: color }}
                       />
                       {item}

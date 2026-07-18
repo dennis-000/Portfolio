@@ -5,6 +5,8 @@ import { RootProviders } from "@/components/providers";
 import { Navigation } from "@/components/navigation/Navigation";
 import { CommandPalette } from "@/components/navigation/CommandPalette";
 import { Footer } from "@/components/Footer";
+import { FloatingChat } from "@/components/chat/FloatingChat";
+
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -90,6 +92,7 @@ export default function RootLayout({
           <CommandPalette />
           <main>{children}</main>
           <Footer />
+          <FloatingChat />
         </RootProviders>
       </body>
     </html>

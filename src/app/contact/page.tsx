@@ -2,14 +2,19 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Check, ChevronDown } from "lucide-react";
+import { Send, Check, Briefcase, Wrench, TrendingUp, BrainCircuit, Mic, Newspaper } from "lucide-react";
 import { usePortfolioStore } from "@/store/portfolio";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ICON_MAP: Record<string, React.ComponentType<any>> = {
+  Briefcase, Wrench, TrendingUp, BrainCircuit, Mic, Newspaper,
+};
 
 const CONTACT_MODES = [
   {
     id: "hire",
     label: "Hire me",
-    emoji: "💼",
+    icon: "Briefcase",
     description: "Full-time, contract, or freelance engagement",
     fields: ["Company", "Role", "Timeline", "Budget range"],
     color: "#6366f1",
@@ -17,7 +22,7 @@ const CONTACT_MODES = [
   {
     id: "build",
     label: "Let's build",
-    emoji: "🛠️",
+    icon: "Wrench",
     description: "Collaboration on a project or product",
     fields: ["Project idea", "Your role", "Timeline", "Stage"],
     color: "#10b981",
@@ -25,7 +30,7 @@ const CONTACT_MODES = [
   {
     id: "invest",
     label: "Investment",
-    emoji: "💰",
+    icon: "TrendingUp",
     description: "Investment in one of my ventures",
     fields: ["Venture interest", "Investment range", "Your firm"],
     color: "#f59e0b",
@@ -33,7 +38,7 @@ const CONTACT_MODES = [
   {
     id: "consult",
     label: "Consulting",
-    emoji: "🧠",
+    icon: "BrainCircuit",
     description: "Technical or strategic consulting",
     fields: ["Topic", "Duration", "Budget"],
     color: "#8b5cf6",
@@ -41,7 +46,7 @@ const CONTACT_MODES = [
   {
     id: "speak",
     label: "Speaking",
-    emoji: "🎤",
+    icon: "Mic",
     description: "Conference, podcast, or panel invitation",
     fields: ["Event name", "Date", "Topic", "Audience size"],
     color: "#f43f5e",
@@ -49,7 +54,7 @@ const CONTACT_MODES = [
   {
     id: "media",
     label: "Media / Press",
-    emoji: "📰",
+    icon: "Newspaper",
     description: "Interview, feature, or press inquiry",
     fields: ["Publication", "Angle / Topic", "Deadline"],
     color: "#06b6d4",
@@ -95,8 +100,8 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <div className="max-w-5xl mx-auto px-4">
+    <div className="min-h-screen pt-44 sm:pt-48 lg:pt-56 pb-20">
+      <div className="w-full max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
         {/* Header */}
         <div className="mb-12">
           <p className="text-xs font-semibold uppercase tracking-widest text-[var(--accent)] mb-4">
@@ -117,32 +122,44 @@ export default function ContactPage() {
               I&apos;m here to…
             </h2>
             <div className="space-y-2">
-              {CONTACT_MODES.map((mode) => (
-                <button
-                  key={mode.id}
-                  onClick={() => {
-                    setSelectedMode(mode);
-                    setFormData({});
-                  }}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-200 text-left"
-                  style={{
-                    borderColor: selectedMode.id === mode.id ? mode.color : "var(--border)",
-                    backgroundColor:
-                      selectedMode.id === mode.id ? `${mode.color}10` : "transparent",
-                  }}
-                >
-                  <span className="text-lg">{mode.emoji}</span>
-                  <div className="flex-1 min-w-0">
-                    <span className="block text-sm font-semibold text-[var(--text)]">
-                      {mode.label}
-                    </span>
-                    <span className="block text-xs text-[var(--text-muted)] truncate">
-                      {mode.description}
-                    </span>
-                  </div>
-                </button>
-              ))}
+              {CONTACT_MODES.map((mode) => {
+                const Icon = ICON_MAP[mode.icon] ?? Briefcase;
+                const isSelected = selectedMode.id === mode.id;
+                return (
+                  <button
+                    key={mode.id}
+                    onClick={() => {
+                      setSelectedMode(mode);
+                      setFormData({});
+                    }}
+                    className="w-full flex items-center gap-4 px-4 py-4 rounded-xl border transition-all duration-200 text-left"
+                    style={{
+                      borderColor: isSelected ? mode.color : "var(--border)",
+                      backgroundColor: isSelected ? `${mode.color}12` : "transparent",
+                    }}
+                  >
+                    <div
+                      className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                      style={{
+                        backgroundColor: `${mode.color}${isSelected ? "25" : "15"}`,
+                        border: `1px solid ${mode.color}${isSelected ? "50" : "30"}`,
+                      }}
+                    >
+                      <Icon size={16} style={{ color: mode.color }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="block text-sm font-semibold text-[var(--text)]">
+                        {mode.label}
+                      </span>
+                      <span className="block text-xs text-[var(--text-muted)] truncate">
+                        {mode.description}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
+
           </div>
 
           {/* Form */}

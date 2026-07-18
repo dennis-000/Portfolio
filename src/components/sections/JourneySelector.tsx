@@ -2,24 +2,29 @@
 
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Code2, BrainCircuit, Clapperboard, Rocket, Palette } from "lucide-react";
 import { JOURNEYS } from "@/lib/data";
 import { usePortfolioStore } from "@/store/portfolio";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+
+// Map icon string names → actual Lucide components
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ICON_MAP: Record<string, React.ComponentType<any>> = {
+  Code2,
+  BrainCircuit,
+  Clapperboard,
+  Rocket,
+  Palette,
+};
 
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.07 } },
+  visible: { transition: { staggerChildren: 0.08 } },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: "easeOut" },
-  },
+  hidden: { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0 },
 };
 
 function JourneyCard({
@@ -31,15 +36,17 @@ function JourneyCard({
 }) {
   const activeJourney = usePortfolioStore((s) => s.activeJourney);
   const isActive = activeJourney === journey.id;
+  const Icon = ICON_MAP[journey.icon] ?? Code2;
 
   return (
     <motion.button
       variants={cardVariants}
+      transition={{ duration: 0.45, ease: "easeOut" }}
       whileHover={{ y: -6, scale: 1.02 }}
       whileTap={{ scale: 0.97 }}
       onClick={onSelect}
       className={cn(
-        "group relative text-left w-full p-5 sm:p-6 rounded-2xl border transition-all duration-250 overflow-hidden",
+        "group relative text-left w-full p-7 sm:p-8 rounded-2xl border transition-all duration-300 overflow-hidden",
         isActive
           ? "border-[var(--accent)]"
           : "border-[var(--border)] glass hover:border-[var(--accent)]/60"
@@ -48,46 +55,51 @@ function JourneyCard({
       aria-label={`Explore as ${journey.label}`}
       aria-pressed={isActive}
     >
-      {/* Radial glow on hover */}
+      {/* Radial glow */}
       <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse 80% 60% at 50% 0%, ${journey.accent}20 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse 80% 60% at 50% 0%, ${journey.accent}22 0%, transparent 70%)`,
         }}
       />
-      {/* Active background tint */}
+
+      {/* Active bg */}
       {isActive && (
         <motion.div
           layoutId="journey-active-bg"
           className="absolute inset-0 rounded-2xl"
-          style={{ backgroundColor: `${journey.accent}12` }}
+          style={{ backgroundColor: `${journey.accent}14` }}
           transition={{ type: "spring", stiffness: 350, damping: 30 }}
         />
       )}
 
-      <div className="relative z-10">
-        <motion.span
-          className="block text-3xl mb-4"
-          whileHover={{ scale: 1.15, rotate: 5 }}
-          transition={{ type: "spring", stiffness: 350, damping: 18 }}
+      <div className="relative z-10 flex flex-col gap-6">
+        {/* Icon badge */}
+        <div
+          className="w-14 h-14 rounded-2xl flex items-center justify-center"
+          style={{
+            backgroundColor: `${journey.accent}18`,
+            border: `1px solid ${journey.accent}40`,
+          }}
         >
-          {journey.emoji}
-        </motion.span>
+          <Icon size={24} style={{ color: journey.accent }} />
+        </div>
 
-        <h3 className="text-sm font-bold text-[var(--text)] mb-2 leading-tight">
-          {journey.label}
-        </h3>
-
-        <p className="text-xs text-[var(--text-muted)] leading-relaxed mb-5">
-          {journey.description}
-        </p>
+        <div>
+          <h3 className="text-lg font-bold text-[var(--text)] mb-2.5 leading-tight">
+            {journey.label}
+          </h3>
+          <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+            {journey.description}
+          </p>
+        </div>
 
         <span
-          className="inline-flex items-center gap-1 text-xs font-semibold transition-colors group-hover:gap-2 duration-200"
+          className="inline-flex items-center gap-2 text-sm font-semibold group-hover:gap-3 transition-all duration-200"
           style={{ color: journey.accent }}
         >
           Explore
-          <ArrowRight size={11} className="transition-transform group-hover:translate-x-0.5" />
+          <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
         </span>
       </div>
     </motion.button>
@@ -104,16 +116,16 @@ export function JourneySelector() {
   };
 
   return (
-    <section id="journey" className="py-20 sm:py-28 px-4">
-      <div className="max-w-7xl mx-auto">
+    <section id="journey" className="py-28 sm:py-36 overflow-hidden">
+      <div className="w-full max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
         {/* Section header */}
-        <div className="max-w-2xl mb-12 sm:mb-16">
+        <div className="max-w-2xl mb-16 sm:mb-24">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.4 }}
-            className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-4"
+            className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-5"
           >
             Choose your path
           </motion.p>
@@ -122,7 +134,7 @@ export function JourneySelector() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.45, delay: 0.05 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-gradient mb-4"
+            className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-gradient mb-6"
           >
             What brings you here?
           </motion.h2>
@@ -131,9 +143,10 @@ export function JourneySelector() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="text-[var(--text-muted)] text-base sm:text-lg leading-relaxed"
+            className="text-[var(--text-muted)] text-lg leading-relaxed"
           >
-            Tailor your journey through this digital headquarters. Each path surfaces the most relevant work, case studies, and context for you.
+            Tailor your journey through this digital headquarters. Each path surfaces
+            the most relevant work, case studies, and context for you.
           </motion.p>
         </div>
 
@@ -143,7 +156,7 @@ export function JourneySelector() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 sm:gap-8"
         >
           {JOURNEYS.map((journey) => (
             <JourneyCard

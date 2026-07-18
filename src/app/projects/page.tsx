@@ -12,33 +12,33 @@ const CATEGORIES = ["All", "engineering", "ai", "design", "creative", "ventures"
 
 export default function ProjectsPage() {
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="mb-12">
+    <div className="min-h-screen pt-52 sm:pt-56 lg:pt-64 pb-20">
+      <div className="w-full max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
+        <div className="mb-14 text-center flex flex-col items-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-[var(--accent)] mb-4">
             Project Library
           </p>
-          <h1 className="text-4xl sm:text-5xl font-display font-bold text-gradient mb-4">
+          <h1 className="text-4xl sm:text-5xl font-display font-bold text-gradient mb-4 text-center">
             Things I&apos;ve built
           </h1>
-          <p className="text-[var(--text-muted)] text-lg max-w-xl">
+          <p className="text-[var(--text-muted)] text-lg max-w-xl mx-auto text-center">
             Deep-dive case studies covering the challenge, process, architecture, and impact of each project.
           </p>
         </div>
 
         {/* Filter chips */}
-        <div className="flex flex-wrap gap-2 mb-10">
+        <div className="flex flex-wrap justify-center gap-2.5 mb-12">
           {CATEGORIES.map((cat) => (
             <span
               key={cat}
-              className="px-3 py-1.5 rounded-full text-xs font-medium glass border border-[var(--border)] text-[var(--text-muted)] cursor-pointer hover:text-[var(--text)] hover:border-[var(--accent)]/40 transition-all capitalize"
+              className="px-4 py-2 rounded-full text-sm font-medium glass border border-[var(--border)] text-[var(--text-muted)] cursor-pointer hover:text-[var(--text)] hover:border-[var(--accent)]/40 transition-all capitalize"
             >
               {cat}
             </span>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
           {FEATURED_PROJECTS.map((project) => (
             <Link
               key={project.id}

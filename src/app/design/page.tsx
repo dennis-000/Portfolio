@@ -16,24 +16,24 @@ const DESIGN_WORK = [
 
 export default function DesignPage() {
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="mb-16">
+    <div className="min-h-screen pt-52 sm:pt-56 lg:pt-64 pb-20">
+      <div className="w-full max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
+        <div className="mb-16 text-center flex flex-col items-center">
           <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#f43f5e" }}>
             Graphic Design
           </p>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-gradient mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-gradient mb-6 text-center">
             Design that
             <br />
             <span style={{ color: "#f43f5e" }}>earns trust.</span>
           </h1>
-          <p className="text-lg text-[var(--text-muted)] max-w-2xl leading-relaxed">
+          <p className="text-lg text-[var(--text-muted)] max-w-2xl leading-relaxed mx-auto text-center">
             Brand identities, UI systems, and visual languages — built from first principles and refined through real-world feedback.
           </p>
         </div>
 
         {/* Design work masonry */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5">
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
           {DESIGN_WORK.map((work, i) => (
             <div
               key={work.title}
@@ -60,7 +60,7 @@ export default function DesignPage() {
                 </div>
               </div>
 
-              <div className="p-4">
+              <div className="p-5 sm:p-6">
                 <h3 className="font-bold text-[var(--text)] text-sm mb-3 group-hover:text-[var(--accent)] transition-colors">
                   {work.title}
                 </h3>

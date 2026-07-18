@@ -17,77 +17,136 @@ const ARCHITECTURE_NODES: { id: string; label: string; sublabel: string; x: numb
 
 function ArchitectureDiagram() {
   return (
-    <div className="relative w-full h-52 sm:h-64 glass rounded-2xl border border-[var(--border)] overflow-hidden p-4">
-      <div className="absolute inset-0 grid-pattern opacity-20" />
-      {/* SVG connections */}
-      <svg className="absolute inset-0 w-full h-full" aria-hidden="true">
-        <defs>
-          <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="3" refY="2" orient="auto">
-            <polygon points="0 0, 6 2, 0 4" fill="rgba(99,102,241,0.4)" />
-          </marker>
-        </defs>
-        {/* Client → API */}
-        <motion.line
-          x1="18%" y1="30%" x2="44%" y2="30%"
-          stroke="rgba(99,102,241,0.35)" strokeWidth="1.5" markerEnd="url(#arrowhead)"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-        />
-        {/* API → Services */}
-        <motion.line
-          x1="50%" y1="35%" x2="50%" y2="50%"
-          stroke="rgba(139,92,246,0.35)" strokeWidth="1.5" markerEnd="url(#arrowhead)"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-        />
-        {/* Services → DB */}
-        <motion.line
-          x1="62%" y1="62%" x2="79%" y2="62%"
-          stroke="rgba(16,185,129,0.35)" strokeWidth="1.5" markerEnd="url(#arrowhead)"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1 }}
-        />
-      </svg>
+    <>
+      {/* Desktop View — Absolute SVG layout */}
+      <div className="hidden md:block relative w-full h-56 sm:h-64 glass rounded-2xl border border-[var(--border)] overflow-hidden p-4">
+        <div className="absolute inset-0 grid-pattern opacity-20" />
+        <svg className="absolute inset-0 w-full h-full" aria-hidden="true">
+          <defs>
+            <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="3" refY="2" orient="auto">
+              <polygon points="0 0, 6 2, 0 4" fill="rgba(99,102,241,0.4)" />
+            </marker>
+          </defs>
+          <motion.line
+            x1="18%" y1="30%" x2="44%" y2="30%"
+            stroke="rgba(99,102,241,0.35)" strokeWidth="1.5" markerEnd="url(#arrowhead)"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          />
+          <motion.line
+            x1="50%" y1="35%" x2="50%" y2="50%"
+            stroke="rgba(139,92,246,0.35)" strokeWidth="1.5" markerEnd="url(#arrowhead)"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          />
+          <motion.line
+            x1="62%" y1="62%" x2="79%" y2="62%"
+            stroke="rgba(16,185,129,0.35)" strokeWidth="1.5" markerEnd="url(#arrowhead)"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1 }}
+          />
+        </svg>
 
-      {ARCHITECTURE_NODES.map((node, i) => {
-        const Icon = node.icon;
-        return (
-          <motion.div
-            key={node.id}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: i * 0.15, type: "spring", stiffness: 300 }}
-            className="absolute flex flex-col items-center"
-            style={{ left: `${node.x}%`, top: `${node.y}%`, transform: "translate(-50%, -50%)" }}
-          >
-            <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center mb-1.5 border"
-              style={{
-                backgroundColor: `${node.color}22`,
-                borderColor: `${node.color}44`,
-              }}
+        {ARCHITECTURE_NODES.map((node, i) => {
+          const Icon = node.icon;
+          return (
+            <motion.div
+              key={node.id}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: i * 0.15, type: "spring", stiffness: 300 }}
+              className="absolute flex flex-col items-center"
+              style={{ left: `${node.x}%`, top: `${node.y}%`, transform: "translate(-50%, -50%)" }}
             >
-              <Icon size={14} style={{ color: node.color }} />
-            </div>
-            <span className="text-[9px] font-semibold text-[var(--text)] text-center leading-none">{node.label}</span>
-            <span className="text-[8px] text-[var(--text-muted)] text-center mt-0.5 hidden sm:block">{node.sublabel}</span>
-          </motion.div>
-        );
-      })}
-    </div>
+              <div
+                className="w-9 h-9 rounded-xl flex items-center justify-center mb-1.5 border"
+                style={{
+                  backgroundColor: `${node.color}22`,
+                  borderColor: `${node.color}44`,
+                }}
+              >
+                <Icon size={14} style={{ color: node.color }} />
+              </div>
+              <span className="text-[9px] font-semibold text-[var(--text)] text-center leading-none">{node.label}</span>
+              <span className="text-[8px] text-[var(--text-muted)] text-center mt-0.5 hidden sm:block">{node.sublabel}</span>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Mobile/Tablet View — Vertical stack pipeline */}
+      <div className="md:hidden flex flex-col gap-3.5">
+        {(() => {
+          const mainFlowNodes = ARCHITECTURE_NODES.filter((n) => n.id !== "ci");
+          const ciNode = ARCHITECTURE_NODES.find((n) => n.id === "ci")!;
+          
+          return (
+            <>
+              {mainFlowNodes.map((node, i) => {
+                const Icon = node.icon;
+                return (
+                  <div key={node.id} className="flex flex-col items-center">
+                    <div className="flex items-center gap-3 w-full p-3.5 glass rounded-xl border border-[var(--border)]">
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center border shrink-0"
+                        style={{
+                          backgroundColor: `${node.color}22`,
+                          borderColor: `${node.color}44`,
+                        }}
+                      >
+                        <Icon size={16} style={{ color: node.color }} />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-[var(--text)] leading-none">{node.label}</p>
+                        <p className="text-[10px] text-[var(--text-muted)] mt-1">{node.sublabel}</p>
+                      </div>
+                    </div>
+                    {i < mainFlowNodes.length - 1 && (
+                      <div className="h-4 w-[2px] bg-gradient-to-b from-indigo-500 to-purple-500 my-0.5 opacity-60" />
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* Render CI/CD separately as a supporting pipeline node */}
+              {(() => {
+                const Icon = ciNode.icon;
+                return (
+                  <div className="flex items-center gap-3 w-full p-3.5 glass rounded-xl border border-[var(--border)] border-dashed mt-2">
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center border shrink-0"
+                      style={{
+                        backgroundColor: `${ciNode.color}22`,
+                        borderColor: `${ciNode.color}44`,
+                      }}
+                    >
+                      <Icon size={16} style={{ color: ciNode.color }} />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-[var(--text)] leading-none">{ciNode.label}</p>
+                      <p className="text-[10px] text-[var(--text-muted)] mt-1">{ciNode.sublabel}</p>
+                    </div>
+                  </div>
+                );
+              })()}
+            </>
+          );
+        })()}
+      </div>
+    </>
   );
 }
 
 function TechGroup({ label, items, color }: { label: string; items: string[]; color: string }) {
   return (
-    <div>
-      <h4 className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color }}>
+    <div className="flex flex-col items-center text-center">
+      <h4 className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color }}>
         {label}
       </h4>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap justify-center gap-2">
         {items.map((tech) => (
           <motion.span
             key={tech}
@@ -106,10 +165,10 @@ export function EngineeringPage() {
   const engProjects = FEATURED_PROJECTS.filter((p) => p.category === "engineering");
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <div className="max-w-6xl mx-auto px-4">
+    <div className="min-h-screen pt-52 sm:pt-56 lg:pt-64 pb-20">
+      <div className="w-full max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
         {/* Header */}
-        <div className="mb-16">
+        <div className="mb-16 text-center flex flex-col items-center">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -122,7 +181,7 @@ export function EngineeringPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-gradient mb-6"
+            className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-gradient mb-6 text-center"
           >
             I build systems
             <br />
@@ -132,7 +191,7 @@ export function EngineeringPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-lg text-[var(--text-muted)] max-w-2xl leading-relaxed"
+            className="text-lg text-[var(--text-muted)] max-w-2xl leading-relaxed mx-auto text-center"
           >
             From zero to production: I architect full-stack systems, design APIs, 
             optimize databases, and ship software that real users depend on daily.
@@ -141,13 +200,13 @@ export function EngineeringPage() {
 
         {/* Architecture diagram */}
         <div className="mb-16">
-          <h2 className="text-xl font-bold text-[var(--text)] mb-6 font-display">System Architecture</h2>
+          <h2 className="text-xl font-bold text-[var(--text)] mb-6 font-display text-center">System Architecture</h2>
           <ArchitectureDiagram />
         </div>
 
         {/* Tech stack grid */}
         <div className="mb-16">
-          <h2 className="text-xl font-bold text-[var(--text)] mb-8 font-display">Tech Stack</h2>
+          <h2 className="text-xl font-bold text-[var(--text)] mb-8 font-display text-center">Tech Stack</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <TechGroup label="Languages" items={TECH_STACK.languages} color="#6366f1" />
             <TechGroup label="Frontend" items={TECH_STACK.frontend} color="#8b5cf6" />
@@ -159,8 +218,8 @@ export function EngineeringPage() {
         </div>
 
         {/* Terminal code window */}
-        <div className="mb-16">
-          <h2 className="text-xl font-bold text-[var(--text)] mb-6 font-display">Code Preview</h2>
+        <div className="mb-16 max-w-3xl mx-auto w-full">
+          <h2 className="text-xl font-bold text-[var(--text)] mb-6 font-display text-center">Code Preview</h2>
           <div className="glass-strong rounded-2xl border border-[var(--border)] overflow-hidden">
             <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border)] bg-white/[0.02]">
               <div className="w-3 h-3 rounded-full bg-red-400/60" />
@@ -168,7 +227,7 @@ export function EngineeringPage() {
               <div className="w-3 h-3 rounded-full bg-green-400/60" />
               <span className="ml-2 text-xs text-[var(--text-muted)]">rag-pipeline.py</span>
             </div>
-            <pre className="p-5 text-xs sm:text-sm font-code overflow-x-auto">
+            <pre className="p-5 text-xs sm:text-sm font-code overflow-x-auto text-left">
               <code className="text-[var(--text-muted)]">
                 <span style={{ color: "#6366f1" }}>from</span>
                 {" langchain.vectorstores "}
@@ -212,9 +271,9 @@ export function EngineeringPage() {
         </div>
 
         {/* Featured engineering projects */}
-        <div>
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-bold text-[var(--text)] font-display">Engineering Projects</h2>
+        <div className="max-w-4xl mx-auto w-full">
+          <div className="flex flex-col items-center gap-3 mb-8">
+            <h2 className="text-xl font-bold text-[var(--text)] font-display text-center">Engineering Projects</h2>
             <Link
               href="/projects?filter=engineering"
               className="group flex items-center gap-1.5 text-sm text-[#6366f1] hover:opacity-80 transition-opacity"
@@ -232,11 +291,11 @@ export function EngineeringPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="p-5 rounded-xl glass border border-[var(--border)] hover:border-[#6366f1]/40 transition-all duration-300"
+                className="p-5 rounded-xl glass border border-[var(--border)] hover:border-[#6366f1]/40 transition-all duration-300 text-center flex flex-col items-center"
               >
-                <h3 className="font-semibold text-[var(--text)] mb-2">{project.title}</h3>
-                <p className="text-sm text-[var(--text-muted)] mb-4">{project.description}</p>
-                <div className="flex items-center justify-between">
+                <h3 className="font-semibold text-[var(--text)] mb-2 font-display">{project.title}</h3>
+                <p className="text-sm text-[var(--text-muted)] mb-4 leading-relaxed">{project.description}</p>
+                <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-3 border-t border-[var(--border)] pt-4 mt-auto">
                   <span className="text-xs font-bold text-[#6366f1]">{project.impact}</span>
                   <Link href={project.href} className="text-xs text-[var(--text-muted)] hover:text-[#6366f1] transition-colors flex items-center gap-1">
                     Case study <ArrowRight size={11} />

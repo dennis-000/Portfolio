@@ -8,18 +8,18 @@ export const metadata: Metadata = {
 
 export default function VenturesPage() {
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="mb-16">
+    <div className="min-h-screen pt-52 sm:pt-56 lg:pt-64 pb-20">
+      <div className="w-full max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
+        <div className="mb-16 text-center flex flex-col items-center">
           <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#10b981" }}>
             Entrepreneurship
           </p>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-gradient mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-gradient mb-6 text-center">
             Not just code.
             <br />
             <span style={{ color: "#10b981" }}>Companies.</span>
           </h1>
-          <p className="text-lg text-[var(--text-muted)] max-w-2xl leading-relaxed">
+          <p className="text-lg text-[var(--text-muted)] max-w-2xl leading-relaxed mx-auto text-center">
             I don&apos;t just build products — I build the companies and ecosystems around them.
             Here&apos;s a look inside my venture portfolio.
           </p>
@@ -30,7 +30,7 @@ export default function VenturesPage() {
             <div
               key={company.id}
               id={company.id}
-              className="grid grid-cols-1 lg:grid-cols-5 gap-8 p-6 sm:p-8 rounded-3xl border border-[var(--border)] glass hover:border-[var(--accent)]/30 transition-all duration-500 group"
+              className="grid grid-cols-1 lg:grid-cols-5 gap-8 p-8 sm:p-10 rounded-3xl border border-[var(--border)] glass hover:border-[var(--accent)]/30 transition-all duration-500 group"
               style={{ "--accent": company.accent } as React.CSSProperties}
             >
               {/* Company identity */}

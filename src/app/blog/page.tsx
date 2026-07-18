@@ -13,22 +13,22 @@ export default function BlogPage() {
   const rest = BLOG_POSTS.filter((p) => !p.featured);
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="mb-12">
+    <div className="min-h-screen pt-44 sm:pt-48 lg:pt-56 pb-20">
+      <div className="w-full max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
+        <div className="mb-14 text-center flex flex-col items-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-[var(--accent)] mb-4">
             Insights
           </p>
-          <h1 className="text-4xl sm:text-5xl font-display font-bold text-gradient mb-4">
+          <h1 className="text-4xl sm:text-5xl font-display font-bold text-gradient mb-4 text-center">
             Writing that matters
           </h1>
-          <p className="text-lg text-[var(--text-muted)] max-w-xl">
+          <p className="text-lg text-[var(--text-muted)] max-w-xl mx-auto text-center">
             Deep dives on AI engineering, product building, design systems, and the African tech ecosystem.
           </p>
         </div>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-10">
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
           {["AI", "Engineering", "Design", "Entrepreneurship", "Product"].map((tag) => (
             <span
               key={tag}

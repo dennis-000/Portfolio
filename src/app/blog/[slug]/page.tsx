@@ -49,7 +49,7 @@ export default async function BlogPostPage({ params }: Props) {
   const content = BLOG_CONTENT[slug] ?? ["Content coming soon."];
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
+    <div className="min-h-screen pt-44 sm:pt-48 lg:pt-56 pb-20">
       {/* Reading progress bar */}
       <div
         className="fixed top-0 left-0 h-0.5 z-50 transition-all"
@@ -57,7 +57,7 @@ export default async function BlogPostPage({ params }: Props) {
         aria-hidden="true"
       />
 
-      <div className="max-w-3xl mx-auto px-4">
+      <div className="w-full max-w-3xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
         <Link
           href="/blog"
           className="inline-flex items-center gap-2 text-sm text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-10 group"

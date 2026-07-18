@@ -10,8 +10,8 @@ export default function HomePage() {
     <>
       <HeroSection />
       <JourneySelector />
-      <FeaturedProjects />
       <CompaniesSection />
+      <FeaturedProjects />
       <TimelineSection />
       <CTASection />
     </>

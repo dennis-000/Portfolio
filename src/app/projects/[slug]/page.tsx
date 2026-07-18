@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { FEATURED_PROJECTS } from "@/lib/data";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Code2, ExternalLink } from "lucide-react";
+import { ArrowLeft, Code2, ExternalLink, TrendingUp } from "lucide-react";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ProjectCasePage({ params }: Props) {
+export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
   const project = FEATURED_PROJECTS.find((p) => p.id === slug);
 
@@ -28,15 +28,15 @@ export default async function ProjectCasePage({ params }: Props) {
 
   const sections = [
     {
-      title: "The Challenge",
-      content: `Every great product starts with a real problem. For ${project.title}, the core challenge was building a system that could handle the complexity of real-world use cases at scale — without sacrificing speed, reliability, or developer experience.`,
+      title: "Challenge",
+      content: `Building a project like ${project.title} required overcoming several technical and design constraints. The primary goal was to create a solution that is robust, performant, and user-centric, addressing real needs in its space.`,
     },
     {
-      title: "Research & Discovery",
-      content: `Before writing a single line of code, I spent time understanding the users, the domain constraints, and the technical landscape. This research phase shaped every architectural decision that followed.`,
+      title: "Approach & Process",
+      content: `I approached this with a focus on modularity and separation of concerns. The stack was chosen for optimal development velocity and performance: ${project.tech.join(", ")}. Iterative testing and research shaped the final result.`,
     },
     {
-      title: "Architecture & Approach",
+      title: "Architecture & Code",
       content: `The solution required a careful balance between performance and maintainability. I designed the architecture to be modular, observable, and easy to iterate on — principles that paid dividends as requirements evolved.`,
     },
     {
@@ -46,8 +46,8 @@ export default async function ProjectCasePage({ params }: Props) {
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <div className="max-w-4xl mx-auto px-4">
+    <div className="min-h-screen pt-52 sm:pt-56 lg:pt-64 pb-20">
+      <div className="w-full max-w-4xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
         {/* Back */}
         <Link
           href="/projects"
@@ -79,11 +79,13 @@ export default async function ProjectCasePage({ params }: Props) {
 
           {/* Impact badge */}
           <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold"
+            className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-sm font-bold"
             style={{ backgroundColor: `${project.accent}18`, color: project.accent }}
           >
-            📈 {project.impact}
+            <TrendingUp size={15} />
+            <span>{project.impact}</span>
           </div>
+
         </div>
 
         {/* Tech stack */}

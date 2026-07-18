@@ -112,7 +112,8 @@ function CompanyCard({
 
 export function CompaniesSection() {
   return (
-    <section className="py-20 sm:py-28 px-4 sm:px-6 max-w-7xl mx-auto">
+    <section className="py-28 sm:py-36 overflow-hidden">
+      <div className="w-full max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
       <div className="text-center mb-16">
         <motion.p
           initial={{ opacity: 0 }}
@@ -142,10 +143,11 @@ export function CompaniesSection() {
         </motion.p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
         {COMPANIES.map((company, i) => (
           <CompanyCard key={company.id} company={company} index={i} />
         ))}
+        </div>
       </div>
     </section>
   );
