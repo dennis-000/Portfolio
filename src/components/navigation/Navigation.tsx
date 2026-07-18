@@ -50,9 +50,9 @@ export function Navigation() {
         initial={{ y: -90, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] glass-strong shadow-lg shadow-black/10 transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-[999] border-b border-[var(--border)] glass-strong shadow-lg shadow-black/10 transition-all duration-300"
       >
-        <nav className="w-full max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20 flex items-center justify-between gap-8" style={{ height: "85px" }}>
+        <nav className="w-full max-w-screen-2xl mx-auto px-6 sm:px-8 md:px-12 lg:px-12 xl:px-12 2xl:px-14 flex items-center justify-between gap-4 2xl:gap-6" style={{ height: "90px" }}>
 
           {/* ── Logo ── */}
           <Link
@@ -69,10 +69,10 @@ export function Navigation() {
               D
             </div>
             <div className="flex flex-col">
-              <span className="text-[15px] font-bold text-[var(--text)] tracking-wide leading-none">
+              <span className="text-base font-bold text-[var(--text)] tracking-wide leading-none">
                 Dennis Opoku
               </span>
-              <span className="text-[10px] text-[var(--text-muted)] mt-1 font-medium">
+              <span className="text-xs text-[var(--text-muted)] mt-1 font-medium">
                 Builder
               </span>
             </div>
@@ -80,7 +80,7 @@ export function Navigation() {
 
           {/* ── Desktop Links ── */}
           <ul
-            className="hidden xl:flex items-center gap-2"
+            className="hidden xl:flex items-center gap-1.5 2xl:gap-2.5"
             role="navigation"
             aria-label="Main navigation"
           >
@@ -91,7 +91,7 @@ export function Navigation() {
                   <Link
                     href={item.href}
                     className={cn(
-                      "relative flex items-center gap-2 px-4.5 py-3 text-[15px] rounded-xl transition-all duration-200 font-bold whitespace-nowrap",
+                      "relative flex items-center gap-2 px-3 2xl:px-3.5 py-2.5 text-sm 2xl:text-[15px] rounded-xl transition-all duration-200 font-bold whitespace-nowrap",
                       isActive
                         ? "text-[var(--text)]"
                         : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-white/5"
@@ -120,11 +120,11 @@ export function Navigation() {
           </ul>
 
           {/* ── Right actions ── */}
-          <div className="flex items-center gap-3 sm:gap-5">
+          <div className="flex items-center gap-2.5 sm:gap-3.5 2xl:gap-4">
             {/* Search command bar */}
             <button
               onClick={() => setCommandPaletteOpen(true)}
-              className="sm:hidden p-2.5 rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] transition-all cursor-pointer"
+              className="2xl:hidden p-2.5 rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] transition-all cursor-pointer"
               aria-label="Open search"
             >
               <Search size={18} />
@@ -132,7 +132,7 @@ export function Navigation() {
 
             <button
               onClick={() => setCommandPaletteOpen(true)}
-              className="hidden sm:flex items-center justify-between gap-3 w-48 lg:w-56 px-4 py-2.5 text-sm rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--accent)]/50 transition-all duration-205 cursor-pointer"
+              className="hidden 2xl:flex items-center justify-between gap-3 w-40 2xl:w-44 px-4 py-2.5 text-sm rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--accent)]/50 transition-all duration-205 cursor-pointer"
               aria-label="Open command palette"
             >
               <div className="flex items-center gap-2">
@@ -148,7 +148,7 @@ export function Navigation() {
             {/* CTA */}
             <Link
               href="/contact"
-              className="hidden md:inline-flex items-center px-6 py-3 text-base font-bold rounded-xl text-white transition-all duration-200 hover:opacity-95 hover:scale-[1.03] shadow-md whitespace-nowrap"
+              className="hidden md:inline-flex items-center px-4.5 2xl:px-5 py-2.5 2xl:py-3 text-sm 2xl:text-[15px] font-bold rounded-xl text-white transition-all duration-200 hover:opacity-95 hover:scale-[1.03] shadow-md whitespace-nowrap"
               style={{ backgroundColor: accentColor, boxShadow: `0 4px 18px ${accentColor}40` }}
             >
               Let&apos;s talk
@@ -210,7 +210,7 @@ export function Navigation() {
 
               {/* Nav links */}
               <nav className="flex-1 overflow-y-auto px-5 py-6">
-                <p className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-muted)] px-4 mb-4">
+                <p className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] px-4 mb-4">
                   Navigate
                 </p>
                 <ul className="space-y-2.5">
@@ -226,7 +226,7 @@ export function Navigation() {
                         <Link
                           href={item.href}
                           className={cn(
-                            "flex items-center justify-between px-5 py-4.5 rounded-xl text-[17px] transition-all duration-200 font-bold",
+                            "flex items-center justify-between px-5 py-5 rounded-xl text-lg transition-all duration-200 font-bold",
                             isActive
                               ? "text-[var(--text)]"
                               : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-white/5"
@@ -251,7 +251,7 @@ export function Navigation() {
               <div className="px-6 py-6 border-t border-[var(--border)]/60">
                 <Link
                   href="/contact"
-                  className="flex items-center justify-center px-6 py-4.5 text-[16px] font-bold rounded-xl text-white transition-all hover:opacity-90 shadow-lg"
+                  className="flex items-center justify-center px-6 py-4.5 text-base font-bold rounded-xl text-white transition-all hover:opacity-90 shadow-lg"
                   style={{ backgroundColor: accentColor }}
                 >
                   Let&apos;s talk →

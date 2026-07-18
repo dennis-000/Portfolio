@@ -49,7 +49,7 @@ export default async function BlogPostPage({ params }: Props) {
   const content = BLOG_CONTENT[slug] ?? ["Content coming soon."];
 
   return (
-    <div className="min-h-screen pt-44 sm:pt-48 lg:pt-56 pb-20">
+    <div className="min-h-screen pt-28 sm:pt-32 lg:pt-36 pb-20">
       {/* Reading progress bar */}
       <div
         className="fixed top-0 left-0 h-0.5 z-50 transition-all"

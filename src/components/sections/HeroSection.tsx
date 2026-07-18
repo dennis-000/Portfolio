@@ -69,7 +69,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex flex-col pt-52 pb-20 md:pt-56 md:pb-24 lg:pt-64 lg:pb-32 overflow-hidden">
+    <section className="relative min-h-screen flex flex-col pt-20 pb-20 md:pt-24 md:pb-24 lg:pt-28 lg:pb-32 overflow-hidden">
       <div className="absolute inset-0 grid-pattern opacity-25" aria-hidden="true" />
 
       {/* 3D Canvas covering the whole hero section background on desktop */}

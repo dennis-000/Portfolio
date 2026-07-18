@@ -46,7 +46,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   ];
 
   return (
-    <div className="min-h-screen pt-52 sm:pt-56 lg:pt-64 pb-20">
+    <div className="min-h-screen pt-28 sm:pt-32 lg:pt-36 pb-20">
       <div className="w-full max-w-4xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
         {/* Back */}
         <Link
