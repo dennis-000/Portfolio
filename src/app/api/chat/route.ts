@@ -1,10 +1,11 @@
 import { streamText } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { google } from "@ai-sdk/google";
-import { PERSONAL, STATS, FEATURED_PROJECTS, COMPANIES, TIMELINE_EVENTS } from "@/lib/data";
+import { PERSONAL, STATS, FEATURED_PROJECTS, COMPANIES, TIMELINE_EVENTS, syncDatabase } from "@/lib/data";
 
 export async function POST(req: Request) {
   try {
+    await syncDatabase();
     const { messages } = await req.json();
 
     // Determine LLM provider based on available environment variables

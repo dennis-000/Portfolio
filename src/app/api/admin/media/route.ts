@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import fs from "fs";
 import path from "path";
+import { put } from "@vercel/blob";
 
 export async function POST(request: Request) {
   try {
@@ -28,29 +29,56 @@ export async function POST(request: Request) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     
-    // Ensure uploads directory exists
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-
-    // Sanitize and generate unique filename
+    // Generate unique sanitized filename
     const ext = path.extname(file.name);
     const baseName = path.basename(file.name, ext)
       .replace(/[^a-zA-Z0-9]/g, "_")
       .toLowerCase();
-    
     const uniqueName = `${baseName}_${Date.now()}${ext}`;
-    const filePath = path.join(uploadsDir, uniqueName);
 
-    // Save file
-    fs.writeFileSync(filePath, buffer);
+    // 1. Check if Vercel Blob is connected
+    const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
 
-    return NextResponse.json({
-      success: true,
-      url: `/uploads/${uniqueName}`,
-      fileName: uniqueName,
-    });
+    if (blobToken) {
+      // Upload directly to Vercel global CDN
+      const blob = await put(uniqueName, buffer, {
+        access: "public",
+        token: blobToken,
+      });
+
+      return NextResponse.json({
+        success: true,
+        url: blob.url,
+        fileName: uniqueName,
+      });
+    }
+
+    // 2. Fallback to Local Disk writing for Offline/Local development
+    if (process.env.NODE_ENV !== "production") {
+      const uploadsDir = path.join(process.cwd(), "public", "uploads");
+      if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+      }
+
+      const filePath = path.join(uploadsDir, uniqueName);
+      fs.writeFileSync(filePath, buffer);
+
+      return NextResponse.json({
+        success: true,
+        url: `/uploads/${uniqueName}`,
+        fileName: uniqueName,
+      });
+    }
+
+    // 3. If in production and Vercel Blob is missing
+    return NextResponse.json(
+      { 
+        success: false, 
+        error: "Vercel Blob storage is not connected. Please go to Vercel Dashboard -> Storage -> Create Database -> select 'Blob' to enable live file uploads." 
+      },
+      { status: 400 }
+    );
+
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error?.message || "Failed to upload file asset" },

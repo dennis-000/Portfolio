@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import fs from "fs";
-import path from "path";
+import { savePortfolioData } from "@/lib/data";
 import { revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
@@ -19,17 +18,8 @@ export async function POST(request: Request) {
 
     const updatedData = await request.json();
 
-    // Validate that we have the core sections
-    if (!updatedData.PERSONAL || !updatedData.FEATURED_PROJECTS) {
-      return NextResponse.json(
-        { success: false, error: "Invalid data schema: Missing core properties" },
-        { status: 400 }
-      );
-    }
-
-    // Write to data.json
-    const filePath = path.join(process.cwd(), "src/lib/data.json");
-    fs.writeFileSync(filePath, JSON.stringify(updatedData, null, 2), "utf8");
+    // Save using persistent storage provider
+    await savePortfolioData(updatedData);
 
     // Revalidate paths to clear static site generation caches
     revalidatePath("/");

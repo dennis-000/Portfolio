@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import fs from "fs";
-import path from "path";
+import { getPortfolioData, savePortfolioData } from "@/lib/data";
 
 function parseInlineMarkdown(text: string) {
   let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: bold; color: #ffffff;">$1</strong>');
@@ -129,9 +128,7 @@ export async function POST(request: Request) {
     }
 
     // Retrieve database
-    const filePath = path.join(process.cwd(), "src/lib/data.json");
-    const fileContent = fs.readFileSync(filePath, "utf8");
-    const data = JSON.parse(fileContent);
+    const data = await getPortfolioData();
 
     const subscribers = data.SUBSCRIBERS || [];
     if (subscribers.length === 0) {
@@ -159,7 +156,7 @@ export async function POST(request: Request) {
       date: new Date().toISOString().split("T")[0],
       recipients: subscribers.length,
     });
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
+    await savePortfolioData(data);
 
     // Check if Resend Key is configured
     const apiKey = process.env.RESEND_API_KEY;

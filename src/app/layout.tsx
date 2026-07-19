@@ -20,6 +20,8 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://dennisopoku.com"),
   title: {
@@ -77,14 +79,16 @@ export const metadata: Metadata = {
   },
 };
 
+import { syncDatabase } from "@/lib/data";
 import MatrixRain from "@/components/ui/MatrixRain";
 import CanvasEffects from "@/components/ui/CanvasEffects";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await syncDatabase();
   return (
     <html lang="en" suppressHydrationWarning>
       <body

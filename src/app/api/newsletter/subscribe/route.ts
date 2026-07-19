@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { getPortfolioData, savePortfolioData } from "@/lib/data";
 
 export async function POST(request: Request) {
   try {
@@ -13,9 +12,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const filePath = path.join(process.cwd(), "src/lib/data.json");
-    const fileContent = fs.readFileSync(filePath, "utf8");
-    const data = JSON.parse(fileContent);
+    const data = await getPortfolioData();
 
     if (!data.SUBSCRIBERS) {
       data.SUBSCRIBERS = [];
@@ -29,7 +26,7 @@ export async function POST(request: Request) {
     }
 
     data.SUBSCRIBERS.push(emailNormalized);
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
+    await savePortfolioData(data);
 
     return NextResponse.json({ success: true, message: "Thank you for subscribing!" });
   } catch (error: any) {

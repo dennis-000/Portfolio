@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import fs from "fs";
-import path from "path";
+import { getPortfolioData } from "@/lib/data";
 
 export async function GET() {
   try {
@@ -16,9 +15,8 @@ export async function GET() {
       );
     }
 
-    const filePath = path.join(process.cwd(), "src/lib/data.json");
-    const fileContent = fs.readFileSync(filePath, "utf8");
-    return NextResponse.json(JSON.parse(fileContent));
+    const data = await getPortfolioData();
+    return NextResponse.json(data);
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error?.message || "Failed to retrieve portfolio config" },

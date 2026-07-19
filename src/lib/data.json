@@ -454,7 +454,7 @@
   "STATS": [
     {
       "label": "Projects Shipped",
-      "value": "60+",
+      "value": "50+",
       "suffix": ""
     },
     {
@@ -644,6 +644,13 @@
       "title": "Hello, techies",
       "date": "2026-07-19",
       "recipients": 1
+    },
+    {
+      "id": "1784473316234",
+      "subject": "First Mail",
+      "title": "Designing",
+      "date": "2026-07-19",
+      "recipients": 2
     }
   ]
 }
