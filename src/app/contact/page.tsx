@@ -66,11 +66,46 @@ export default function ContactPage() {
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const accentColor = usePortfolioStore((s) => s.accentColor);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setErrorMsg(null);
+
+    const nameEl = document.getElementById("contact-name") as HTMLInputElement;
+    const emailEl = document.getElementById("contact-email") as HTMLInputElement;
+
+    const payload = {
+      Name: nameEl?.value || "",
+      Email: emailEl?.value || "",
+      Category: selectedMode.label,
+      ...formData,
+      Message: message,
+    };
+
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/asiedudennis30@gmail.com", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        setErrorMsg("Failed to deliver message. Please try again or email directly.");
+      }
+    } catch {
+      setErrorMsg("Network error occurred. Please check your internet connection.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -244,16 +279,23 @@ export default function ContactPage() {
                   />
                 </div>
 
+                {errorMsg && (
+                  <div className="p-3 text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-xl text-center font-bold">
+                    {errorMsg}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-white text-sm font-semibold transition-all duration-200 hover:opacity-90 hover:scale-[1.01]"
+                  disabled={isSubmitting}
+                  className={`w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-white text-sm font-semibold transition-all duration-200 hover:opacity-90 hover:scale-[1.01] cursor-pointer ${isSubmitting ? "opacity-55 cursor-not-allowed" : ""}`}
                   style={{
                     backgroundColor: selectedMode.color,
                     boxShadow: `0 0 30px ${selectedMode.color}30`,
                   }}
                 >
-                  <Send size={15} />
-                  Send message
+                  <Send size={15} className={isSubmitting ? "animate-bounce" : ""} />
+                  {isSubmitting ? "Sending message..." : "Send message"}
                 </button>
               </motion.form>
             </AnimatePresence>

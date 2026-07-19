@@ -253,7 +253,9 @@
       "featured": true,
       "accent": "#8b5cf6",
       "href": "/projects/ai-voice-assistant",
-      "gradient": "from-violet-500/20 to-purple-900/10"
+      "gradient": "from-violet-500/20 to-purple-900/10",
+      "isPrivate": false,
+      "cover": "/uploads/chatgpt_image_jul_18__2026__05_57_34_pm_1784470232689.png"
     },
     {
       "id": "saas-dashboard",
@@ -597,7 +599,8 @@
       ],
       "readTime": "8 min",
       "date": "2024-11-15",
-      "featured": true
+      "featured": false,
+      "content": []
     },
     {
       "slug": "design-systems-for-startups",
