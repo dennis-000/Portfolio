@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { BLOG_POSTS } from "@/lib/data";
 import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
+import NewsletterSubscribe from "@/components/ui/NewsletterSubscribe";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -40,7 +41,7 @@ export default function BlogPage() {
         </div>
 
         {/* Featured posts */}
-        <div className="space-y-5 mb-5">
+        <div className="space-y-5">
           {BLOG_POSTS.map((post, i) => (
             <Link
               key={post.slug}
@@ -73,6 +74,10 @@ export default function BlogPage() {
             </Link>
           ))}
         </div>
+
+        {/* Newsletter subscription panel */}
+        <NewsletterSubscribe />
+
       </div>
     </div>
   );

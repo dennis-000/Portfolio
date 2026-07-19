@@ -146,3 +146,6 @@ export const DESIGN_WORK: {
   tags: string[];
   image: string;
 }[] = dataJson.DESIGN_WORK;
+
+export const SUBSCRIBERS: string[] = dataJson.SUBSCRIBERS || [];
+export const NEWSLETTERS: any[] = dataJson.NEWSLETTERS || [];

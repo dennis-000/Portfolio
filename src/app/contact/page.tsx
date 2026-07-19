@@ -84,6 +84,7 @@ export default function ContactPage() {
       Category: selectedMode.label,
       ...formData,
       Message: message,
+      _autoresponse: "Thank you for reaching out! I have received your message and will get back to you within 48 hours. - Dennis Opoku Asiedu",
     };
 
     try {

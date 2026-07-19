@@ -8,6 +8,7 @@ import {
   Briefcase, 
   Settings, 
   FileText,
+  Mail,
   LucideIcon 
 } from "lucide-react";
 
@@ -23,6 +24,7 @@ const iconMap: Record<string, LucideIcon> = {
   designs: Palette,
   blog: FileText,
   settings: Settings,
+  mail: Mail,
 };
 
 export default function AdminSidebarLink({ item }: { item: SidebarItem }) {
