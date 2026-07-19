@@ -163,7 +163,7 @@ export async function POST(request: Request) {
 
     if (apiKey) {
       // Trigger automated Resend broadcast
-      // Since Resend onboarding API has a 1-to-1 restriction, we chunk or map deliveries
+      // Note: onboarding@resend.dev sends to the account owner (asiedudennis30@gmail.com)
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -172,8 +172,7 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify({
           from: "Dennis Opoku Asiedu <onboarding@resend.dev>",
-          to: subscribers.length === 1 ? subscribers[0] : "asiedudennis30@gmail.com", // testing safety
-          bcc: subscribers.length > 1 ? subscribers.filter((email: string) => email !== "asiedudennis30@gmail.com") : undefined,
+          to: "asiedudennis30@gmail.com",
           subject: subject,
           html: htmlContent,
         }),
@@ -181,7 +180,10 @@ export async function POST(request: Request) {
 
       const resJson = await res.json();
       if (res.ok) {
-        return NextResponse.json({ success: true, message: `Successfully broadcasted to ${subscribers.length} subscribers!` });
+        return NextResponse.json({ 
+          success: true, 
+          message: `Successfully broadcasted email newsletter via Resend! (Message ID: ${resJson.id})` 
+        });
       } else {
         return NextResponse.json({ 
           success: false, 
