@@ -40,17 +40,35 @@ export async function POST(request: Request) {
     const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
 
     if (blobToken) {
-      // Upload directly to Vercel global CDN
-      const blob = await put(uniqueName, buffer, {
-        access: "public",
-        token: blobToken,
-      });
+      try {
+        // Try uploading with public access (standard for CDN-served images)
+        const blob = await put(uniqueName, buffer, {
+          access: "public",
+          token: blobToken,
+        });
 
-      return NextResponse.json({
-        success: true,
-        url: blob.url,
-        fileName: uniqueName,
-      });
+        return NextResponse.json({
+          success: true,
+          url: blob.url,
+          fileName: uniqueName,
+        });
+      } catch (uploadError: any) {
+        // Fallback to private access upload if the store is configured as private
+        if (uploadError?.message?.includes("private") || uploadError?.message?.includes("access")) {
+          const blob = await put(uniqueName, buffer, {
+            access: "private",
+            token: blobToken,
+          });
+
+          return NextResponse.json({
+            success: true,
+            url: blob.url,
+            fileName: uniqueName,
+            warning: "Your Vercel Blob store is configured as Private. Images might not be visible to public visitors. Please switch your Blob store settings to 'Public' in the Vercel Dashboard under Storage.",
+          });
+        }
+        throw uploadError;
+      }
     }
 
     // 2. Fallback to Local Disk writing for Offline/Local development

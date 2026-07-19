@@ -11,7 +11,10 @@ export async function getPortfolioData(): Promise<any> {
       const dataBlob = response.blobs.find(b => b.pathname === "data.json");
       
       if (dataBlob) {
-        const res = await fetch(dataBlob.url, { cache: "no-store" });
+        const res = await fetch(dataBlob.url, {
+          headers: { Authorization: `Bearer ${blobToken}` },
+          cache: "no-store",
+        });
         if (res.ok) {
           return await res.json();
         }
@@ -43,7 +46,7 @@ export async function savePortfolioData(updatedData: any): Promise<boolean> {
     try {
       // Save data.json into Vercel Blob store
       await put("data.json", JSON.stringify(updatedData, null, 2), {
-        access: "public",
+        access: "private",
         addRandomSuffix: false,
         token: blobToken,
       });
