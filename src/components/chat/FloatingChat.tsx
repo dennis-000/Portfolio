@@ -21,10 +21,6 @@ export function FloatingChat() {
   const [input, setInput] = useState("");
   const pathname = usePathname();
 
-  if (pathname.startsWith("/admin") || pathname === "/login") {
-    return null;
-  }
-
   const accentColor = usePortfolioStore((s) => s.accentColor);
   const accentRgb = usePortfolioStore((s) => s.accentRgb);
   
@@ -89,6 +85,10 @@ export function FloatingChat() {
     regenerate();
   };
 
+
+  if (pathname.startsWith("/admin") || pathname === "/login") {
+    return null;
+  }
 
   return (
     <>
