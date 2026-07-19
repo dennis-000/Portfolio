@@ -12,7 +12,8 @@ import {
   ExternalLink, 
   Lock, 
   Eye, 
-  AlertCircle
+  AlertCircle,
+  Upload
 } from "lucide-react";
 import Link from "next/link";
 
@@ -60,6 +61,8 @@ export default function AdminProjectsPage() {
   const [demoUrl, setDemoUrl] = useState("");
   const [githubUrl, setGithubUrl] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
+  const [cover, setCover] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -92,6 +95,7 @@ export default function AdminProjectsPage() {
     setDemoUrl(project.demoUrl || "");
     setGithubUrl(project.githubUrl || "");
     setIsPrivate(project.isPrivate || false);
+    setCover(project.cover || "");
     setIsEditing(true);
   };
 
@@ -110,6 +114,7 @@ export default function AdminProjectsPage() {
     setDemoUrl("");
     setGithubUrl("");
     setIsPrivate(false);
+    setCover("");
     setIsEditing(true);
   };
 
@@ -137,6 +142,32 @@ export default function AdminProjectsPage() {
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+    if (!fileList || fileList.length === 0) return;
+
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append("file", fileList[0]);
+
+    try {
+      const res = await fetch("/api/admin/media", {
+        method: "POST",
+        body: formData,
+      });
+      const resJson = await res.json();
+      if (resJson.success) {
+        setCover(resJson.url);
+      } else {
+        alert(resJson.error || "File upload failed");
+      }
+    } catch {
+      alert("Network error occurred during upload.");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   const handleSaveSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!id || !title || !description) {
@@ -161,6 +192,7 @@ export default function AdminProjectsPage() {
       demoUrl: demoUrl || undefined,
       githubUrl: githubUrl || undefined,
       isPrivate,
+      cover: cover || undefined,
     };
 
     let updatedProjects = [...data.FEATURED_PROJECTS];
@@ -457,6 +489,31 @@ export default function AdminProjectsPage() {
                     className="w-full px-3 py-2 bg-black/40 border border-white/5 rounded-xl text-white outline-none focus:border-indigo-500/40"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] block mb-1.5">Project Cover Image Link / URL</label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="e.g. /uploads/voice_assistant_cover.png"
+                    value={cover}
+                    onChange={(e) => setCover(e.target.value)}
+                    className="flex-1 px-3 py-2 bg-black/40 border border-white/5 rounded-xl text-white outline-none focus:border-indigo-500/40"
+                  />
+                  <label className={`px-4.5 py-2.5 rounded-xl bg-white/5 border border-white/10 font-bold hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer flex items-center gap-1.5 ${isUploading ? "opacity-40 cursor-not-allowed" : ""}`}>
+                    <Upload size={12} />
+                    <span>{isUploading ? "..." : "Upload"}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileUpload}
+                      disabled={isUploading}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+                <p className="text-[9px] text-[var(--text-muted)] mt-1.5">Upload a cover/thumbnail directly or paste any image URL.</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">

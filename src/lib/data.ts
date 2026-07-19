@@ -35,6 +35,7 @@ export interface Project {
   demoUrl?: string;
   githubUrl?: string;
   isPrivate?: boolean;
+  cover?: string;
 }
 
 export interface BlogPost {
