@@ -1,6 +1,26 @@
 import { put, list } from "@vercel/blob";
 import dataJson from "./data.json";
 
+function getFs() {
+  if (typeof window !== "undefined") return null;
+  try {
+    const req = eval("require");
+    return req("fs");
+  } catch {
+    return null;
+  }
+}
+
+function getPath() {
+  if (typeof window !== "undefined") return null;
+  try {
+    const req = eval("require");
+    return req("path");
+  } catch {
+    return null;
+  }
+}
+
 export async function getPortfolioData(): Promise<any> {
   const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
 
@@ -26,14 +46,18 @@ export async function getPortfolioData(): Promise<any> {
 
   // Local file fallback (local development / first time seed)
   try {
-    const fs = require("fs");
-    const path = require("path");
-    const filePath = path.join(process.cwd(), "src/lib/data.json");
-    const fileContent = fs.readFileSync(filePath, "utf8");
-    return JSON.parse(fileContent);
+    const fs = getFs();
+    const path = getPath();
+    if (fs && path) {
+      const filePath = path.join(process.cwd(), "src/lib/data.json");
+      const fileContent = fs.readFileSync(filePath, "utf8");
+      return JSON.parse(fileContent);
+    }
   } catch (e) {
     return dataJson;
   }
+
+  return dataJson;
 }
 
 export async function savePortfolioData(updatedData: any): Promise<boolean> {
@@ -60,13 +84,17 @@ export async function savePortfolioData(updatedData: any): Promise<boolean> {
 
   // Local fallback for offline/local development
   try {
-    const fs = require("fs");
-    const path = require("path");
-    const filePath = path.join(process.cwd(), "src/lib/data.json");
-    fs.writeFileSync(filePath, JSON.stringify(updatedData, null, 2), "utf8");
-    return true;
+    const fs = getFs();
+    const path = getPath();
+    if (fs && path) {
+      const filePath = path.join(process.cwd(), "src/lib/data.json");
+      fs.writeFileSync(filePath, JSON.stringify(updatedData, null, 2), "utf8");
+      return true;
+    }
   } catch (e: any) {
     console.error("Local file save error:", e);
     throw new Error(`Failed to write local database file: ${e?.message || e}`);
   }
+
+  return true;
 }
