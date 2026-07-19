@@ -206,10 +206,10 @@ export default function AdminBlogPage() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 flex-1 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-6 gap-6 flex-1 items-start">
         
         {/* Blog Posts List */}
-        <div className={`space-y-4 ${isEditing ? "lg:col-span-2.5" : "lg:col-span-5"} transition-all duration-300`}>
+        <div className={`space-y-4 ${isEditing ? "lg:col-span-3" : "lg:col-span-6"} transition-all duration-300`}>
           {/* Search bar */}
           <div className="relative">
             <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
@@ -223,7 +223,7 @@ export default function AdminBlogPage() {
           </div>
 
           {/* Grid items */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className={`grid grid-cols-1 ${isEditing ? "sm:grid-cols-1" : "sm:grid-cols-2 xl:grid-cols-3"} gap-4`}>
             {filteredPosts.map((p: any) => (
               <div 
                 key={p.slug} 
@@ -276,7 +276,7 @@ export default function AdminBlogPage() {
 
         {/* Editor Form Panel */}
         {isEditing && (
-          <div className="lg:col-span-2.5 glass-strong border border-white/5 p-6 rounded-2xl shadow-2xl relative">
+          <div className="lg:col-span-3 glass-strong border border-white/5 p-6 rounded-2xl shadow-2xl relative w-full overflow-hidden">
             <button
               onClick={() => setIsEditing(false)}
               className="absolute top-4 right-4 p-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[var(--text-muted)] hover:text-white transition-all cursor-pointer"
