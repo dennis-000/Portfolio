@@ -1,393 +1,146 @@
 // ============================================================
-// DENNIS OPOKU ASIEDU — Portfolio Data
-// Central data source for all content
+// DENNIS OPOKU ASIEDU — Dynamic Portfolio Data
+// Reads from data.json dynamically on server, falls back to bundle on client
 // ============================================================
 
-export const PERSONAL = {
-  name: "Dennis Opoku Asiedu",
-  shortName: "Dennis",
-  tagline: "I build products, brands and experiences.",
-  subTagline: "Multidisciplinary builder at the intersection of technology, creativity, and entrepreneurship.",
-  location: "Ghana, West Africa",
-  available: true,
-  email: "hello@dennisopoku.com",
-  github: "https://github.com/dennisopoku",
-  linkedin: "https://linkedin.com/in/dennisopoku",
-  twitter: "https://twitter.com/dennisopoku",
-  website: "https://dennisopoku.com",
-};
+// Define TypeScript interfaces for type-safety across components
+export interface Company {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  logo: string;
+  founded: string;
+  status: string;
+  role: string;
+  accent: string;
+  website: string;
+  tags: string[];
+  achievements: string[];
+  mission: string;
+}
 
-export const DISCIPLINES = [
-  {
-    id: "engineering",
-    label: "Software Engineering",
-    shortLabel: "Engineer",
-    description: "Full-stack systems, APIs, and scalable architectures",
-    icon: "laptop",
-    accent: "#6366f1",
-    accentRgb: "99, 102, 241",
-    href: "/engineering",
-    position: [-3, 1.5, -0.5] as [number, number, number],
-  },
-  {
-    id: "ai",
-    label: "Artificial Intelligence",
-    shortLabel: "AI Engineer",
-    description: "LLMs, RAG pipelines, computer vision, voice AI",
-    icon: "brain",
-    accent: "#8b5cf6",
-    accentRgb: "139, 92, 246",
-    href: "/ai",
-    position: [3, 1.5, -0.5] as [number, number, number],
-  },
-  {
-    id: "creative",
-    label: "Creative Media",
-    shortLabel: "Creator",
-    description: "Video production, campaigns, and visual storytelling",
-    icon: "camera",
-    accent: "#f59e0b",
-    accentRgb: "245, 158, 11",
-    href: "/creative",
-    position: [0, 2.8, -1] as [number, number, number],
-  },
-  {
-    id: "design",
-    label: "Graphic Design",
-    shortLabel: "Designer",
-    description: "Brand systems, UI/UX, typography, and visual identity",
-    icon: "paintbrush",
-    accent: "#f43f5e",
-    accentRgb: "244, 63, 94",
-    href: "/design",
-    position: [-3, -1.5, 0.5] as [number, number, number],
-  },
-  {
-    id: "ventures",
-    label: "Entrepreneurship",
-    shortLabel: "Founder",
-    description: "Building companies, products, and ecosystems",
-    icon: "rocket",
-    accent: "#10b981",
-    accentRgb: "16, 185, 129",
-    href: "/ventures",
-    position: [3, -1.5, 0.5] as [number, number, number],
-  },
-  {
-    id: "leadership",
-    label: "Leadership",
-    shortLabel: "Leader",
-    description: "Mentoring, talks, hackathons, and community building",
-    icon: "users",
-    accent: "#06b6d4",
-    accentRgb: "6, 182, 212",
-    href: "/leadership",
-    position: [0, -2.8, -0.2] as [number, number, number],
-  },
-];
+export interface Project {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  tech: string[];
+  impact: string;
+  year: string;
+  featured: boolean;
+  accent: string;
+  href: string;
+  gradient: string;
+  demoUrl?: string;
+  githubUrl?: string;
+  isPrivate?: boolean;
+}
 
-export const JOURNEYS = [
-  {
-    id: "engineering",
-    label: "Software Engineer",
-    description: "Code & architecture.",
-    icon: "Code2",
-    accent: "#6366f1",
-  },
-  {
-    id: "ai",
-    label: "AI Engineer",
-    description: "Models & pipelines.",
-    icon: "BrainCircuit",
-    accent: "#8b5cf6",
-  },
-  {
-    id: "creative",
-    label: "Creative Studio",
-    description: "Campaigns & stories.",
-    icon: "Clapperboard",
-    accent: "#f59e0b",
-  },
-  {
-    id: "ventures",
-    label: "Startup Founder",
-    description: "Products & ventures.",
-    icon: "Rocket",
-    accent: "#10b981",
-  },
-  {
-    id: "design",
-    label: "Media & Brand",
-    description: "Design & identity.",
-    icon: "Palette",
-    accent: "#f43f5e",
-  },
-];
+export interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  tags: string[];
+  readTime: string;
+  date: string;
+  featured: boolean;
+}
 
-export const COMPANIES = [
-  {
-    id: "startup-lens",
-    name: "The Startup Lens",
-    tagline: "Where startups find clarity",
-    description:
-      "A media and consulting platform that helps African startups craft compelling narratives, build investor-ready brands, and scale their digital presence.",
-    logo: "/companies/startup-lens.svg",
-    founded: "2022",
-    status: "active",
-    role: "Founder & CEO",
-    accent: "#6366f1",
-    website: "#",
-    tags: ["Media", "Consulting", "Startups"],
-    achievements: ["50+ startups served", "3 countries", "$2M+ raised by clients"],
-    mission: "Empowering African startups with world-class brand and media infrastructure.",
-  },
-  {
-    id: "techies-zone",
-    name: "Techies Zone Solutions",
-    tagline: "Engineering tomorrow's solutions",
-    description:
-      "A technology solutions company delivering custom software, AI integrations, and digital transformation services to businesses across Ghana and beyond.",
-    logo: "/companies/techies-zone.svg",
-    founded: "2021",
-    status: "active",
-    role: "Co-Founder & CTO",
-    accent: "#10b981",
-    website: "#",
-    tags: ["SaaS", "AI", "Consulting"],
-    achievements: ["20+ enterprise clients", "5 SaaS products", "15-person team"],
-    mission: "Making cutting-edge technology accessible to every African business.",
-  },
-  {
-    id: "yveereads",
-    name: "YveeReads",
-    tagline: "Stories worth reading",
-    description:
-      "A digital reading platform celebrating African literature, connecting readers with authors, and making African stories accessible to the world.",
-    logo: "/companies/yveereads.svg",
-    founded: "2023",
-    status: "active",
-    role: "Co-Founder & Product Lead",
-    accent: "#f59e0b",
-    website: "#",
-    tags: ["EdTech", "Media", "Publishing"],
-    achievements: ["10,000+ readers", "200+ titles", "12 featured authors"],
-    mission: "Making African stories the world's favourite stories.",
-  },
-  {
-    id: "zealcraft",
-    name: "Zealcraft Innovation",
-    tagline: "Crafting with zeal",
-    description:
-      "A creative innovation studio that produces high-quality digital content, motion graphics, and immersive brand experiences for forward-thinking brands.",
-    logo: "/companies/zealcraft.svg",
-    founded: "2020",
-    status: "active",
-    role: "Founder & Creative Director",
-    accent: "#f43f5e",
-    website: "#",
-    tags: ["Creative", "Motion", "Branding"],
-    achievements: ["100+ brand projects", "30+ video productions", "Award-winning campaigns"],
-    mission: "Where technology meets creativity to produce unforgettable experiences.",
-  },
-];
+let dataJson: any;
 
-export const FEATURED_PROJECTS = [
-  {
-    id: "ai-voice-assistant",
-    title: "Multilingual Voice AI Assistant",
-    category: "ai",
-    description:
-      "Real-time multilingual voice AI supporting 8 African languages, built with Whisper, GPT-4, and custom TTS models.",
-    tech: ["Python", "OpenAI", "Whisper", "FastAPI", "React"],
-    impact: "50,000+ queries/day",
-    year: "2024",
-    featured: true,
-    accent: "#8b5cf6",
-    href: "/projects/ai-voice-assistant",
-    gradient: "from-violet-500/20 to-purple-900/10",
-  },
-  {
-    id: "saas-dashboard",
-    title: "Enterprise Analytics Platform",
-    category: "engineering",
-    description:
-      "Multi-tenant SaaS analytics platform serving 200+ businesses with real-time data pipelines and predictive insights.",
-    tech: ["Next.js", "TypeScript", "PostgreSQL", "Redis", "Kubernetes"],
-    impact: "200+ active businesses",
-    year: "2024",
-    featured: true,
-    accent: "#6366f1",
-    href: "/projects/saas-dashboard",
-    gradient: "from-indigo-500/20 to-blue-900/10",
-  },
-  {
-    id: "brand-system",
-    title: "Comprehensive Brand System",
-    category: "design",
-    description:
-      "End-to-end brand identity system for a Series A fintech startup, including logo, typography, UI components, and motion language.",
-    tech: ["Figma", "After Effects", "Illustrator", "React"],
-    impact: "$5M Series A raised",
-    year: "2023",
-    featured: true,
-    accent: "#f43f5e",
-    href: "/projects/brand-system",
-    gradient: "from-rose-500/20 to-pink-900/10",
-  },
-  {
-    id: "rag-pipeline",
-    title: "Legal RAG Intelligence System",
-    category: "ai",
-    description:
-      "Custom RAG pipeline enabling natural language querying of 50,000+ legal documents with 96% accuracy.",
-    tech: ["Python", "LangChain", "Pinecone", "GPT-4", "FastAPI"],
-    impact: "96% query accuracy",
-    year: "2024",
-    featured: true,
-    accent: "#8b5cf6",
-    href: "/projects/rag-pipeline",
-    gradient: "from-violet-500/20 to-indigo-900/10",
-  },
-  {
-    id: "media-campaign",
-    title: "Pan-African Youth Campaign",
-    category: "creative",
-    description:
-      "Multi-platform digital campaign reaching 2M+ young Africans across 15 countries, featuring original video, photography, and interactive content.",
-    tech: ["Premiere Pro", "After Effects", "Figma", "Instagram", "TikTok"],
-    impact: "2M+ reach across 15 countries",
-    year: "2023",
-    featured: true,
-    accent: "#f59e0b",
-    href: "/projects/media-campaign",
-    gradient: "from-amber-500/20 to-orange-900/10",
-  },
-];
+if (typeof window === "undefined") {
+  // Server-side: read dynamically from disk to enable instant CMS updates
+  // We use require() dynamically to prevent Webpack/Next.js from bundling fs on the client side
+  try {
+    const fs = require("fs");
+    const path = require("path");
+    const filePath = path.join(process.cwd(), "src/lib/data.json");
+    const fileContent = fs.readFileSync(filePath, "utf8");
+    dataJson = JSON.parse(fileContent);
+  } catch (e) {
+    // Fallback to static require
+    dataJson = require("./data.json");
+  }
+} else {
+  // Client-side: use bundled static JSON
+  dataJson = require("./data.json");
+}
 
-export const TECH_STACK = {
-  languages: ["TypeScript", "Python", "Go", "SQL", "Rust"],
-  frontend: ["Next.js", "React", "Vue", "Tailwind CSS", "Framer Motion"],
-  backend: ["Node.js", "FastAPI", "Django", "GraphQL", "tRPC"],
-  ai: ["OpenAI", "LangChain", "Pinecone", "Hugging Face", "PyTorch"],
-  cloud: ["AWS", "GCP", "Vercel", "Docker", "Kubernetes"],
-  design: ["Figma", "Adobe Suite", "Framer", "Webflow"],
-  databases: ["PostgreSQL", "MongoDB", "Redis", "Supabase", "Prisma"],
-};
+export const PERSONAL: {
+  name: string;
+  shortName: string;
+  tagline: string;
+  subTagline: string;
+  location: string;
+  available: boolean;
+  email: string;
+  github: string;
+  linkedin: string;
+  twitter: string;
+  website: string;
+} = dataJson.PERSONAL;
 
-export const STATS = [
-  { label: "Projects Shipped", value: "60+", suffix: "" },
-  { label: "Companies Founded", value: "4", suffix: "" },
-  { label: "Countries Reached", value: "15+", suffix: "" },
-  { label: "Years Building", value: "5+", suffix: "" },
-];
+export const DISCIPLINES: {
+  id: string;
+  label: string;
+  shortLabel: string;
+  description: string;
+  icon: string;
+  accent: string;
+  accentRgb: string;
+  href: string;
+  position: [number, number, number];
+}[] = dataJson.DISCIPLINES;
 
-export const TIMELINE_EVENTS = [
-  {
-    year: "2020",
-    title: "Founded Zealcraft Innovation",
-    description: "Launched creative studio to serve brands with world-class design and media.",
-    type: "company",
-    accent: "#f43f5e",
-  },
-  {
-    year: "2021",
-    title: "Co-founded Techies Zone Solutions",
-    description: "Built a technology solutions firm delivering AI and SaaS products.",
-    type: "company",
-    accent: "#10b981",
-  },
-  {
-    year: "2022",
-    title: "BSc Computer Science",
-    description: "Graduated with distinction, specialized in AI and distributed systems.",
-    type: "education",
-    accent: "#6366f1",
-  },
-  {
-    year: "2022",
-    title: "Founded The Startup Lens",
-    description: "Launched media and consulting platform for African startups.",
-    type: "company",
-    accent: "#6366f1",
-  },
-  {
-    year: "2023",
-    title: "First Hackathon Win",
-    description: "Won Pan-African AI Hackathon with multilingual voice assistant prototype.",
-    type: "award",
-    accent: "#f59e0b",
-  },
-  {
-    year: "2023",
-    title: "Co-founded YveeReads",
-    description: "Built Africa's reading platform to celebrate and distribute African literature.",
-    type: "company",
-    accent: "#f59e0b",
-  },
-  {
-    year: "2024",
-    title: "Shipped Enterprise AI Products",
-    description: "Deployed RAG pipelines and voice AI serving 50,000+ daily active users.",
-    type: "milestone",
-    accent: "#8b5cf6",
-  },
-  {
-    year: "2025",
-    title: "Speaker at Tech Summit Africa",
-    description: "Delivered keynote on AI-powered entrepreneurship to 5,000+ attendees.",
-    type: "speaking",
-    accent: "#06b6d4",
-  },
-  {
-    year: "2026",
-    title: "Building at the frontier",
-    description: "Exploring AI agents, spatial computing, and the future of African tech.",
-    type: "future",
-    accent: "#8b5cf6",
-  },
-];
+export const JOURNEYS: {
+  id: string;
+  label: string;
+  description: string;
+  icon: string;
+  accent: string;
+}[] = dataJson.JOURNEYS;
 
-export const NAV_ITEMS = [
-  { label: "Engineering", href: "/engineering", accent: "#6366f1" },
-  { label: "AI", href: "/ai", accent: "#8b5cf6" },
-  { label: "Creative", href: "/creative", accent: "#f59e0b" },
-  { label: "Design", href: "/design", accent: "#f43f5e" },
-  { label: "Ventures", href: "/ventures", accent: "#10b981" },
-  { label: "Projects", href: "/projects", accent: "#06b6d4" },
-  { label: "Resume", href: "/resume", accent: "#06b6d4" },
-  { label: "Blog", href: "/blog", accent: "#06b6d4" },
-  { label: "Contact", href: "/contact", accent: "#06b6d4" },
-];
+export const COMPANIES: Company[] = dataJson.COMPANIES;
+export const FEATURED_PROJECTS: Project[] = dataJson.FEATURED_PROJECTS;
 
-export const BLOG_POSTS = [
-  {
-    slug: "building-rag-systems-at-scale",
-    title: "Building RAG Systems at Scale in Production",
-    excerpt: "How we architected a retrieval-augmented generation system to handle 50,000+ daily queries with 96% accuracy.",
-    category: "AI Engineering",
-    tags: ["AI", "RAG", "Python", "Production"],
-    readTime: "8 min",
-    date: "2024-11-15",
-    featured: true,
-  },
-  {
-    slug: "design-systems-for-startups",
-    title: "Design Systems That Actually Scale with Your Startup",
-    excerpt: "The practical guide to building a design system that grows with your product — without the overhead.",
-    category: "Design",
-    tags: ["Design", "Figma", "UI/UX", "Startups"],
-    readTime: "6 min",
-    date: "2024-09-22",
-    featured: true,
-  },
-  {
-    slug: "african-tech-ecosystem",
-    title: "Building for Africa: Why Context is Your Competitive Edge",
-    excerpt: "The unique challenges and opportunities in building technology products for African markets.",
-    category: "Entrepreneurship",
-    tags: ["Africa", "Startups", "Product", "Business"],
-    readTime: "5 min",
-    date: "2024-07-10",
-    featured: false,
-  },
-];
+export const TECH_STACK: {
+  languages: string[];
+  frontend: string[];
+  backend: string[];
+  ai: string[];
+  cloud: string[];
+  design: string[];
+  databases: string[];
+} = dataJson.TECH_STACK;
+
+export const STATS: {
+  label: string;
+  value: string;
+  suffix: string;
+}[] = dataJson.STATS;
+
+export const TIMELINE_EVENTS: {
+  year: string;
+  title: string;
+  description: string;
+  type: string;
+  accent: string;
+}[] = dataJson.TIMELINE_EVENTS;
+
+export const NAV_ITEMS: {
+  label: string;
+  href: string;
+  accent: string;
+}[] = dataJson.NAV_ITEMS;
+
+export const BLOG_POSTS: BlogPost[] = dataJson.BLOG_POSTS;
+
+export const DESIGN_WORK: {
+  title: string;
+  type: string;
+  color: string;
+  tags: string[];
+  image: string;
+}[] = dataJson.DESIGN_WORK;

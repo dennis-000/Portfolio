@@ -77,6 +77,9 @@ export const metadata: Metadata = {
   },
 };
 
+import MatrixRain from "@/components/ui/MatrixRain";
+import CanvasEffects from "@/components/ui/CanvasEffects";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -88,6 +91,8 @@ export default function RootLayout({
         className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <RootProviders>
+          <MatrixRain />
+          <CanvasEffects />
           <Navigation />
           <CommandPalette />
           <main>{children}</main>

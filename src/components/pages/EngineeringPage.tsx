@@ -5,6 +5,7 @@ import { Code, Server, Database, Globe, GitBranch, Cpu } from "lucide-react";
 import { TECH_STACK, FEATURED_PROJECTS } from "@/lib/data";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { InteractiveCodePreview } from "./InteractiveCodePreview";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ARCHITECTURE_NODES: { id: string; label: string; sublabel: string; x: number; y: number; icon: React.ComponentType<any>; color: string }[] = [
@@ -220,54 +221,7 @@ export function EngineeringPage() {
         {/* Terminal code window */}
         <div className="mb-16 max-w-3xl mx-auto w-full">
           <h2 className="text-xl font-bold text-[var(--text)] mb-6 font-display text-center">Code Preview</h2>
-          <div className="glass-strong rounded-2xl border border-[var(--border)] overflow-hidden">
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border)] bg-white/[0.02]">
-              <div className="w-3 h-3 rounded-full bg-red-400/60" />
-              <div className="w-3 h-3 rounded-full bg-yellow-400/60" />
-              <div className="w-3 h-3 rounded-full bg-green-400/60" />
-              <span className="ml-2 text-xs text-[var(--text-muted)]">rag-pipeline.py</span>
-            </div>
-            <pre className="p-5 text-xs sm:text-sm font-code overflow-x-auto text-left">
-              <code className="text-[var(--text-muted)]">
-                <span style={{ color: "#6366f1" }}>from</span>
-                {" langchain.vectorstores "}
-                <span style={{ color: "#6366f1" }}>import</span>
-                {" Pinecone\n"}
-                <span style={{ color: "#6366f1" }}>from</span>
-                {" langchain.embeddings.openai "}
-                <span style={{ color: "#6366f1" }}>import</span>
-                {" OpenAIEmbeddings\n\n"}
-                <span style={{ color: "#8b5cf6" }}>class</span>
-                {" "}
-                <span style={{ color: "#f59e0b" }}>LegalRAGPipeline</span>
-                {":\n"}
-                {"    "}
-                <span style={{ color: "#8b5cf6" }}>def</span>
-                {" "}
-                <span style={{ color: "#06b6d4" }}>__init__</span>
-                {"(self, index_name: str):\n"}
-                {"        self.embeddings = OpenAIEmbeddings(model="}
-                <span style={{ color: "#10b981" }}>&quot;text-embedding-3-large&quot;</span>
-                {")\n"}
-                {"        self.vectorstore = Pinecone.from_existing_index(\n"}
-                {"            index_name, self.embeddings\n"}
-                {"        )\n\n"}
-                {"    "}
-                <span style={{ color: "#8b5cf6" }}>async def</span>
-                {" "}
-                <span style={{ color: "#06b6d4" }}>query</span>
-                {"(self, question: str, k: int = "}
-                <span style={{ color: "#f59e0b" }}>5</span>
-                {") -> str:\n"}
-                {"        docs = "}
-                <span style={{ color: "#8b5cf6" }}>await</span>
-                {" self.vectorstore.asimilarity_search(question, k=k)\n"}
-                {"        "}
-                <span style={{ color: "#6366f1" }}>return</span>
-                {" self._synthesize(question, docs)"}
-              </code>
-            </pre>
-          </div>
+          <InteractiveCodePreview />
         </div>
 
         {/* Featured engineering projects */}

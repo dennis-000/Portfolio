@@ -16,6 +16,10 @@ export function Navigation() {
   const pathname = usePathname();
   const { setCommandPaletteOpen, accentColor, accentRgb } = usePortfolioStore();
 
+  if (pathname.startsWith("/admin") || pathname === "/login") {
+    return null;
+  }
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 30);
     handleScroll();
@@ -42,7 +46,7 @@ export function Navigation() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  const PRIMARY_NAV = NAV_ITEMS.slice(0, 7);
+  const PRIMARY_NAV = NAV_ITEMS;
 
   return (
     <>

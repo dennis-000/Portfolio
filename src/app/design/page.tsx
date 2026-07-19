@@ -1,18 +1,10 @@
 import type { Metadata } from "next";
+import { DESIGN_WORK } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Graphic Design",
   description: "Dennis Opoku Asiedu's graphic design work — brand identities, UI/UX, typography, and visual systems.",
 };
-
-const DESIGN_WORK = [
-  { title: "Techies Zone Brand Identity", type: "Branding", color: "#10b981", tags: ["Logo", "Typography", "Color System"] },
-  { title: "YveeReads UI/UX Design", type: "Product Design", color: "#f59e0b", tags: ["Figma", "User Research", "Prototyping"] },
-  { title: "Startup Lens Brand System", type: "Brand System", color: "#6366f1", tags: ["Identity", "Guidelines", "Motion"] },
-  { title: "Fintech App UI Redesign", type: "UI Design", color: "#8b5cf6", tags: ["Mobile", "Dark Mode", "Accessibility"] },
-  { title: "Conference Poster Series", type: "Print Design", color: "#f43f5e", tags: ["Typography", "Illustration", "Print"] },
-  { title: "Zealcraft Visual Language", type: "Visual System", color: "#06b6d4", tags: ["Icons", "Patterns", "Animations"] },
-];
 
 export default function DesignPage() {
   return (

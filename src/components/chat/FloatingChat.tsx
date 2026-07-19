@@ -14,9 +14,17 @@ const STARTER_PROMPTS = [
   "What projects did he build?",
 ];
 
+import { usePathname } from "next/navigation";
+
 export function FloatingChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/admin") || pathname === "/login") {
+    return null;
+  }
+
   const accentColor = usePortfolioStore((s) => s.accentColor);
   const accentRgb = usePortfolioStore((s) => s.accentRgb);
   

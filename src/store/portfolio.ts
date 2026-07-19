@@ -25,6 +25,12 @@ interface PortfolioStore {
   accentColor: string;
   accentRgb: string;
   setAccent: (color: string, rgb: string) => void;
+
+  // Interactive Code Playground Effects
+  matrixRainActive: boolean;
+  confettiTrigger: number;
+  toggleMatrixRain: (active?: boolean) => void;
+  triggerConfetti: () => void;
 }
 
 const JOURNEY_ACCENTS: Record<string, { color: string; rgb: string }> = {
@@ -67,7 +73,18 @@ export const usePortfolioStore = create<PortfolioStore>()(
 
       accentColor: "#06b6d4",
       accentRgb: "6, 182, 212",
-      setAccent: (color, rgb) => set({ accentColor: color, accentRgb: rgb }),
+      setAccent: (color, rgb) => {
+        set({ accentColor: color, accentRgb: rgb });
+        if (typeof document !== "undefined") {
+          document.documentElement.style.setProperty("--accent", color);
+          document.documentElement.style.setProperty("--accent-rgb", rgb);
+        }
+      },
+
+      matrixRainActive: false,
+      confettiTrigger: 0,
+      toggleMatrixRain: (active) => set((s) => ({ matrixRainActive: active !== undefined ? active : !s.matrixRainActive })),
+      triggerConfetti: () => set((s) => ({ confettiTrigger: s.confettiTrigger + 1 })),
     }),
     {
       name: "dennis-portfolio-store",

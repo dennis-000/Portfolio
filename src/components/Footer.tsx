@@ -4,10 +4,16 @@ import Link from "next/link";
 import { GitBranch, Globe2, AtSign, Mail } from "lucide-react";
 import { PERSONAL, NAV_ITEMS } from "@/lib/data";
 import { usePortfolioStore } from "@/store/portfolio";
+import { usePathname } from "next/navigation";
 
 export function Footer() {
   const accentColor = usePortfolioStore((s) => s.accentColor);
   const year = new Date().getFullYear();
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/admin") || pathname === "/login") {
+    return null;
+  }
 
   return (
     <footer className="border-t border-[var(--border)] mt-24">
