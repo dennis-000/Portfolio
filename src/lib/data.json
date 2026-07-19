@@ -634,7 +634,16 @@
     }
   ],
   "SUBSCRIBERS": [
-    "asiedudennis30@gmail.com"
+    "asiedudennis30@gmail.com",
+    "duahopokuj@gmail.com"
   ],
-  "NEWSLETTERS": []
+  "NEWSLETTERS": [
+    {
+      "id": "1784471149586",
+      "subject": "RAG",
+      "title": "Hello, techies",
+      "date": "2026-07-19",
+      "recipients": 1
+    }
+  ]
 }

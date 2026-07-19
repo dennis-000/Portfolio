@@ -56,6 +56,105 @@ export default function AdminNewsletterPage() {
     }
   };
 
+  const renderPreviewMarkdown = (bodyText: string) => {
+    if (!bodyText) {
+      return (
+        <p className="text-[var(--text-muted)] leading-relaxed mb-4 text-xs italic">
+          (Write your email body copy in the textarea. Double enter key creates new paragraphs.)
+        </p>
+      );
+    }
+
+    const parseInline = (text: string) => {
+      const parts = [];
+      let currentIdx = 0;
+      const regex = /(\*\*.*?\*\*|`.*?`)/g;
+      let match;
+
+      while ((match = regex.exec(text)) !== null) {
+        if (match.index > currentIdx) {
+          parts.push(text.substring(currentIdx, match.index));
+        }
+
+        const matchedText = match[0];
+        if (matchedText.startsWith("**") && matchedText.endsWith("**")) {
+          parts.push(
+            <strong key={match.index} className="font-semibold text-white">
+              {matchedText.slice(2, -2)}
+            </strong>
+          );
+        } else if (matchedText.startsWith("`") && matchedText.endsWith("`")) {
+          parts.push(
+            <code key={match.index} className="px-1.5 py-0.5 rounded bg-rose-500/10 border border-rose-500/20 font-mono text-[10px] text-rose-400">
+              {matchedText.slice(1, -1)}
+            </code>
+          );
+        }
+
+        currentIdx = regex.lastIndex;
+      }
+
+      if (currentIdx < text.length) {
+        parts.push(text.substring(currentIdx));
+      }
+
+      return parts.length > 0 ? parts : text;
+    };
+
+    const paragraphs = bodyText.split("\n\n").map(p => p.trim()).filter(p => p.length > 0);
+    let elements: React.ReactNode[] = [];
+    let currentListItems: React.ReactNode[] = [];
+
+    paragraphs.forEach((p, idx) => {
+      if (p.startsWith("- ")) {
+        currentListItems.push(
+          <li key={`li-${idx}`} className="list-disc list-inside ml-2 mb-1.5 text-xs text-rose-100/90 leading-relaxed">
+            {parseInline(p.replace("- ", ""))}
+          </li>
+        );
+      } else {
+        if (currentListItems.length > 0) {
+          elements.push(
+            <ul key={`ul-${idx}`} className="my-3 space-y-1 pl-2 text-xs text-rose-100/90">
+              {currentListItems}
+            </ul>
+          );
+          currentListItems = [];
+        }
+
+        if (p.startsWith("## ")) {
+          elements.push(
+            <h2 key={idx} className="text-sm font-bold text-white border-b border-white/5 pb-1 mt-6 mb-3 font-display">
+              {p.replace("## ", "")}
+            </h2>
+          );
+        } else if (p.startsWith("> ")) {
+          elements.push(
+            <blockquote key={idx} className="border-l-2 border-rose-500 bg-white/[0.01] p-3 rounded-r-xl my-4 text-xs italic text-[var(--text-muted)] leading-relaxed font-serif">
+              {parseInline(p.replace("> ", ""))}
+            </blockquote>
+          );
+        } else {
+          elements.push(
+            <p key={idx} className="text-[#cbd5e1] leading-relaxed mb-4 text-xs">
+              {parseInline(p)}
+            </p>
+          );
+        }
+      }
+    });
+
+    if (currentListItems.length > 0) {
+      elements.push(
+        <ul key="ul-end" className="my-3 space-y-1 pl-2 text-xs text-rose-100/90">
+          {currentListItems}
+        </ul>
+      );
+    }
+
+    return elements;
+  };
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
     if (!fileList || fileList.length === 0) return;
@@ -324,9 +423,9 @@ export default function AdminNewsletterPage() {
                   </h1>
 
                   {/* Copy content body */}
-                  <p className="text-[var(--text-muted)] leading-relaxed whitespace-pre-wrap mb-6 text-xs">
-                    {body || "(Write your email body copy in the textarea. Double spacing creates new paragraphs.)"}
-                  </p>
+                  <div className="mb-6">
+                    {renderPreviewMarkdown(body)}
+                  </div>
 
                   {/* Attached Blog Card preview */}
                   {selectedBlog && (

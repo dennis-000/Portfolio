@@ -3,6 +3,47 @@ import { cookies } from "next/headers";
 import fs from "fs";
 import path from "path";
 
+function parseInlineMarkdown(text: string) {
+  let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: bold; color: #ffffff;">$1</strong>');
+  formatted = formatted.replace(/`(.*?)`/g, '<code style="font-family: monospace; font-size: 11px; background-color: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: 2px 4px; border-radius: 4px; color: #f43f5e;">$1</code>');
+  return formatted;
+}
+
+function parseBodyMarkdown(bodyText: string) {
+  const paragraphs = bodyText.split("\n\n").map(p => p.trim()).filter(p => p.length > 0);
+  let htmlResult = "";
+  let insideList = false;
+
+  for (const p of paragraphs) {
+    if (p.startsWith("- ")) {
+      if (!insideList) {
+        htmlResult += '<ul style="margin: 15px 0; padding-left: 20px; color: #cbd5e1;">';
+        insideList = true;
+      }
+      htmlResult += `<li style="font-size: 13px; margin-bottom: 8px; line-height: 1.6;">${parseInlineMarkdown(p.replace("- ", ""))}</li>`;
+    } else {
+      if (insideList) {
+        htmlResult += "</ul>";
+        insideList = false;
+      }
+
+      if (p.startsWith("## ")) {
+        htmlResult += `<h2 style="font-size: 16px; font-weight: bold; color: #ffffff; margin-top: 25px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px;">${p.replace("## ", "")}</h2>`;
+      } else if (p.startsWith("> ")) {
+        htmlResult += `<blockquote style="border-left: 2px solid #f43f5e; background-color: rgba(255,255,255,0.01); padding: 12px 16px; margin: 15px 0; border-radius: 0 8px 8px 0; font-style: italic; color: #cbd5e1;">${parseInlineMarkdown(p.replace("> ", ""))}</blockquote>`;
+      } else {
+        htmlResult += `<p style="font-size: 13.5px; color: #cbd5e1; line-height: 1.8; margin-bottom: 15px;">${parseInlineMarkdown(p)}</p>`;
+      }
+    }
+  }
+
+  if (insideList) {
+    htmlResult += "</ul>";
+  }
+
+  return htmlResult;
+}
+
 // Beautiful, responsive HTML newsletter template
 function generateEmailHtml(title: string, body: string, headerImage: string, blogPost?: any) {
   const blogSection = blogPost ? `
@@ -42,8 +83,8 @@ function generateEmailHtml(title: string, body: string, headerImage: string, blo
                   <td align="left" style="padding-top: 20px;">
                     ${banner}
                     <h1 style="font-size: 22px; font-weight: bold; margin-top: 0; margin-bottom: 15px; color: #ffffff; line-height: 1.3;">${title}</h1>
-                    <div style="font-size: 14px; color: #94a3b8; line-height: 1.8; white-space: pre-line; margin-bottom: 20px;">
-                      ${body}
+                    <div style="font-size: 14px; color: #cbd5e1; line-height: 1.8; margin-bottom: 20px;">
+                      ${parseBodyMarkdown(body)}
                     </div>
                     ${blogSection}
                   </td>
