@@ -172,7 +172,7 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify({
           from: "Dennis Opoku Asiedu <onboarding@resend.dev>",
-          to: "asiedudennis30@gmail.com",
+          to: "odennisasiedu@gmail.com",
           subject: subject,
           html: htmlContent,
         }),
