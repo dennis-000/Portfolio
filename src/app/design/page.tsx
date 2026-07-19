@@ -32,20 +32,34 @@ export default function DesignPage() {
               className="break-inside-avoid group rounded-2xl border border-[var(--border)] glass hover:border-[var(--accent)]/40 overflow-hidden transition-all duration-500 cursor-pointer"
               style={{ "--accent": work.color } as React.CSSProperties}
             >
-              {/* Color preview area */}
+              {/* Color/Image preview area */}
               <div
-                className="w-full relative overflow-hidden"
-                style={{ height: i % 3 === 0 ? "160px" : i % 3 === 1 ? "200px" : "140px" }}
+                className="w-full relative overflow-hidden bg-black/20"
+                style={{ height: i % 3 === 0 ? "180px" : i % 3 === 1 ? "240px" : "160px" }}
               >
-                <div
-                  className="absolute inset-0 opacity-30 group-hover:opacity-60 transition-opacity duration-500"
-                  style={{ background: `radial-gradient(circle at 30% 40%, ${work.color}, transparent 70%)` }}
-                />
-                <div className="absolute inset-0 grid-pattern opacity-30" />
-                <div className="absolute bottom-3 left-3">
+                {work.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={work.image}
+                    alt={work.title}
+                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div
+                    className="absolute inset-0 opacity-30 group-hover:opacity-60 transition-opacity duration-500"
+                    style={{ background: `radial-gradient(circle at 30% 40%, ${work.color}, transparent 70%)` }}
+                  />
+                )}
+                <div className="absolute inset-0 grid-pattern opacity-20 pointer-events-none" />
+                <div className="absolute bottom-3 left-3 z-10">
                   <span
-                    className="text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded"
-                    style={{ backgroundColor: `${work.color}22`, color: work.color }}
+                    className="text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded backdrop-blur-sm shadow-sm"
+                    style={{ 
+                      backgroundColor: `${work.color}33`, 
+                      color: work.color,
+                      border: `1px solid ${work.color}44`
+                    }}
                   >
                     {work.type}
                   </span>
