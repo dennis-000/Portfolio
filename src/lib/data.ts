@@ -47,6 +47,7 @@ export interface BlogPost {
   readTime: string;
   date: string;
   featured: boolean;
+  content?: string[];
 }
 
 let dataJson: any;

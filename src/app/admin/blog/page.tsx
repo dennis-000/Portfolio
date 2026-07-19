@@ -32,6 +32,7 @@ export default function AdminBlogPage() {
   const [readTime, setReadTime] = useState("");
   const [date, setDate] = useState("");
   const [featured, setFeatured] = useState(false);
+  const [contentString, setContentString] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -59,6 +60,7 @@ export default function AdminBlogPage() {
     setReadTime(post.readTime || "");
     setDate(post.date || new Date().toISOString().split("T")[0]);
     setFeatured(post.featured || false);
+    setContentString(post.content ? post.content.join("\n\n") : "");
     setIsEditing(true);
   };
 
@@ -72,6 +74,7 @@ export default function AdminBlogPage() {
     setReadTime("5 min");
     setDate(new Date().toISOString().split("T")[0]);
     setFeatured(false);
+    setContentString("");
     setIsEditing(true);
   };
 
@@ -117,6 +120,7 @@ export default function AdminBlogPage() {
       readTime,
       date,
       featured,
+      content: contentString.split("\n\n").map(p => p.trim()).filter(p => p.length > 0),
     };
 
     let updatedBlogPosts = [...data.BLOG_POSTS];
@@ -327,6 +331,16 @@ export default function AdminBlogPage() {
                   value={excerpt}
                   onChange={(e) => setExcerpt(e.target.value)}
                   className="w-full h-16 px-3 py-2 bg-black/40 border border-white/5 rounded-xl text-white outline-none focus:border-indigo-500/40 resize-none"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] block mb-1.5">Article Markdown Body (double enter for new paragraphs)</label>
+                <textarea
+                  placeholder="Write your article contents here. Supports ## headings, - bullet lists, **bold**, and `code` blocks."
+                  value={contentString}
+                  onChange={(e) => setContentString(e.target.value)}
+                  className="w-full h-40 px-3 py-2 bg-black/40 border border-white/5 rounded-xl text-white outline-none focus:border-indigo-500/40 resize-y font-mono text-[11px]"
                 />
               </div>
 
