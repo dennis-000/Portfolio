@@ -48,6 +48,7 @@ export async function savePortfolioData(updatedData: any): Promise<boolean> {
       await put("data.json", JSON.stringify(updatedData, null, 2), {
         access: "private",
         addRandomSuffix: false,
+        allowOverwrite: true,
         token: blobToken,
       });
       return true;
