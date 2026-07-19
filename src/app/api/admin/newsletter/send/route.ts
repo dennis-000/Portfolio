@@ -185,15 +185,14 @@ export async function POST(request: Request) {
           message: `Successfully broadcasted email newsletter via Resend! (Message ID: ${resJson.id})` 
         });
       } else {
-        return NextResponse.json({ 
-          success: false, 
-          error: resJson.message || "Failed to trigger Resend API. Falling back to desktop client.", 
-          fallback: true,
-          subscribers,
-          subject,
-          textBody: `${title}\n\n${body}\n\nRead more: https://dennis-portfolio-ruddy.vercel.app/blog`,
-          htmlBody: htmlContent
-        });
+        console.error("Resend API Error details:", resJson);
+        return NextResponse.json(
+          { 
+            success: false, 
+            error: `Resend API Error: ${resJson.message || resJson.error || JSON.stringify(resJson)}` 
+          },
+          { status: 400 }
+        );
       }
     }
 
