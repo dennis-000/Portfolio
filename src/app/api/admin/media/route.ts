@@ -62,9 +62,8 @@ export async function POST(request: Request) {
 
           return NextResponse.json({
             success: true,
-            url: blob.url,
+            url: `/api/media/${uniqueName}`, // Return proxy path for private uploads!
             fileName: uniqueName,
-            warning: "Your Vercel Blob store is configured as Private. Images might not be visible to public visitors. Please switch your Blob store settings to 'Public' in the Vercel Dashboard under Storage.",
           });
         }
         throw uploadError;
