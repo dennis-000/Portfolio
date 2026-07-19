@@ -1,23 +1,27 @@
-import { kv } from "@vercel/kv";
+import { put, list } from "@vercel/blob";
 import dataJson from "./data.json";
 
 export async function getPortfolioData(): Promise<any> {
-  const token = process.env.KV_REST_API_TOKEN;
-  if (token) {
+  const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
+
+  if (blobToken) {
     try {
-      const data = await kv.get("portfolio_data");
-      if (data) {
-        return data;
+      // Find data.json in the Vercel Blob store
+      const response = await list({ token: blobToken });
+      const dataBlob = response.blobs.find(b => b.pathname === "data.json");
+      
+      if (dataBlob) {
+        const res = await fetch(dataBlob.url, { cache: "no-store" });
+        if (res.ok) {
+          return await res.json();
+        }
       }
-      // Seed initial data if empty
-      await kv.set("portfolio_data", dataJson);
-      return dataJson;
     } catch (e) {
-      console.error("Vercel KV Read Error, using local file fallback:", e);
+      console.error("Vercel Blob Read Error, falling back to local:", e);
     }
   }
 
-  // Local file fallback
+  // Local file fallback (local development / first time seed)
   try {
     const fs = require("fs");
     const path = require("path");
@@ -34,14 +38,19 @@ export async function savePortfolioData(updatedData: any): Promise<boolean> {
     throw new Error("Invalid data schema: Missing core properties");
   }
 
-  const token = process.env.KV_REST_API_TOKEN;
-  if (token) {
+  const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
+  if (blobToken) {
     try {
-      await kv.set("portfolio_data", updatedData);
+      // Save data.json into Vercel Blob store
+      await put("data.json", JSON.stringify(updatedData, null, 2), {
+        access: "public",
+        addRandomSuffix: false,
+        token: blobToken,
+      });
       return true;
     } catch (e: any) {
-      console.error("Vercel KV Write Error:", e);
-      throw new Error(`Failed to write to Vercel KV: ${e?.message || e}`);
+      console.error("Vercel Blob Write Error:", e);
+      throw new Error(`Failed to write to Vercel Blob: ${e?.message || e}`);
     }
   }
 
