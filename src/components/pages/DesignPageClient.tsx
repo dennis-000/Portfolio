@@ -12,6 +12,20 @@ export default function DesignPageClient() {
   const [selectedWork, setSelectedWork] = useState<any>(null);
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copiedCategory, setCopiedCategory] = useState(false);
+
+  const handleCopyCategoryLink = () => {
+    if (typeof window !== "undefined") {
+      let shareUrl = `${window.location.origin}${window.location.pathname}`;
+      if (activeCategory !== "All") {
+        shareUrl += `?category=${activeCategory.toLowerCase()}`;
+      }
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        setCopiedCategory(true);
+        setTimeout(() => setCopiedCategory(false), 2000);
+      });
+    }
+  };
 
   // Extract categories dynamically from dataset
   const categories = ["All", ...Array.from(new Set(DESIGN_WORK.map((work) => work.type)))];
@@ -124,6 +138,21 @@ export default function DesignPageClient() {
               </button>
             );
           })}
+
+          {/* Share Category Button */}
+          <button
+            onClick={handleCopyCategoryLink}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-white/5 border border-white/10 text-rose-400 hover:bg-white/10 hover:border-rose-500/20 transition-all cursor-pointer relative ml-2 sm:ml-4"
+            title={`Copy link to share ${activeCategory === "All" ? "all designs" : `${activeCategory} designs`}`}
+          >
+            <Share2 size={12} />
+            <span>Share {activeCategory === "All" ? "All" : activeCategory}</span>
+            {copiedCategory && (
+              <span className="absolute bottom-full right-1/2 translate-x-1/2 mb-1.5 px-2 py-1 bg-rose-500 text-[8px] font-bold text-white uppercase rounded shadow-md pointer-events-none whitespace-nowrap z-50">
+                Category Link Copied!
+              </span>
+            )}
+          </button>
         </div>
 
         {/* Design Masonry Grid */}
