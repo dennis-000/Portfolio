@@ -59,22 +59,29 @@ export function Navigation() {
       >
         <nav className="w-full max-w-screen-2xl mx-auto px-6 sm:px-8 md:px-12 lg:px-12 xl:px-12 2xl:px-14 flex items-center justify-between gap-4 2xl:gap-6" style={{ height: "90px" }}>
 
-          {/* ── Logo ── */}
+          {/* ── Premium Frameless Logo ── */}
           <Link
             href="/"
-            className="group flex items-center shrink-0 transition-transform duration-300 hover:scale-[1.04]"
+            className="group relative flex items-center shrink-0 py-1 transition-all duration-300 hover:scale-[1.05] active:scale-95"
           >
-            {/* Light Mode Tightly Cropped Frameless Logo */}
+            {/* Background Ambient Glow Halo on Hover */}
+            <div 
+              className="absolute -inset-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none"
+              style={{ background: `radial-gradient(circle, rgba(${accentRgb}, 0.4) 0%, transparent 70%)` }}
+            />
+
+            {/* Light Mode Frameless Logo */}
             <img
               src="/logo-transparent.png"
               alt="Dennis Opoku Logo"
-              className="h-11 sm:h-13 md:h-14 w-auto object-contain block dark:hidden drop-shadow-sm transition-transform duration-300"
+              className="h-14 sm:h-16 md:h-18 2xl:h-20 w-auto object-contain block dark:hidden filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.18)] transition-all duration-300 group-hover:drop-shadow-[0_8px_22px_rgba(0,0,0,0.25)] group-hover:-translate-y-0.5"
             />
-            {/* Dark Mode Tightly Cropped Frameless Logo */}
+
+            {/* Dark Mode Frameless Logo */}
             <img
               src="/logo-white.png"
               alt="Dennis Opoku Logo"
-              className="h-11 sm:h-13 md:h-14 w-auto object-contain hidden dark:block drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-transform duration-300"
+              className="h-14 sm:h-16 md:h-18 2xl:h-20 w-auto object-contain hidden dark:block filter drop-shadow-[0_0_18px_rgba(255,255,255,0.35)] transition-all duration-300 group-hover:drop-shadow-[0_0_28px_rgba(99,102,241,0.7)] group-hover:-translate-y-0.5"
             />
           </Link>
 

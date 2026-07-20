@@ -22,16 +22,16 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-10">
           {/* Brand */}
           <div>
-            <Link href="/" className="flex items-center gap-3 mb-4 transition-transform hover:scale-[1.03]">
+            <Link href="/" className="group relative inline-flex items-center mb-4 transition-all duration-300 hover:scale-[1.05]">
               <img
                 src="/logo-transparent.png"
                 alt="Dennis Opoku Logo"
-                className="h-9 w-auto object-contain block dark:hidden"
+                className="h-12 sm:h-14 w-auto object-contain block dark:hidden filter drop-shadow-md"
               />
               <img
                 src="/logo-white.png"
                 alt="Dennis Opoku Logo"
-                className="h-9 w-auto object-contain hidden dark:block drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+                className="h-12 sm:h-14 w-auto object-contain hidden dark:block filter drop-shadow-[0_0_18px_rgba(255,255,255,0.35)] group-hover:drop-shadow-[0_0_26px_rgba(99,102,241,0.6)]"
               />
             </Link>
             <p className="text-xs text-[var(--text-muted)] leading-relaxed max-w-xs">
