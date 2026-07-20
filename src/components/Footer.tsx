@@ -23,13 +23,11 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2.5 mb-4">
-              <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-[var(--border)] bg-white p-0.5 shadow-sm flex items-center justify-center">
-                <Image
+              <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-[var(--border)] bg-[var(--bg-secondary)] p-0.5 shadow-sm flex items-center justify-center">
+                <img
                   src="/logo.png"
                   alt="Dennis Opoku Logo"
-                  width={32}
-                  height={32}
-                  className="w-full h-full object-contain rounded-md"
+                  className="w-full h-full object-contain rounded-md dark:invert dark:brightness-125 mix-blend-multiply dark:mix-blend-screen"
                 />
               </div>
               <span className="font-semibold text-sm text-[var(--text)]">Dennis Opoku Asiedu</span>

@@ -64,13 +64,11 @@ export function Navigation() {
             href="/"
             className="group flex items-center gap-3 shrink-0"
           >
-            <div className="relative w-11 h-11 rounded-xl overflow-hidden shadow-md group-hover:scale-105 border border-[var(--border)] bg-white p-0.5 transition-transform duration-300 flex items-center justify-center">
-              <Image
+            <div className="relative w-11 h-11 rounded-xl overflow-hidden shadow-md group-hover:scale-105 border border-[var(--border)] bg-[var(--bg-secondary)] p-1 transition-all duration-300 flex items-center justify-center">
+              <img
                 src="/logo.png"
                 alt="Dennis Opoku Logo"
-                width={44}
-                height={44}
-                className="w-full h-full object-contain rounded-lg"
+                className="w-full h-full object-contain rounded-lg transition-all dark:invert dark:brightness-125 dark:contrast-125 mix-blend-multiply dark:mix-blend-screen"
               />
             </div>
             <div className="flex flex-col">
@@ -163,11 +161,11 @@ export function Navigation() {
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="xl:hidden p-2.5 rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] transition-all"
+              className="xl:hidden w-11 h-11 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text)] hover:bg-white/10 transition-all cursor-pointer z-[1002]"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
             >
-              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </motion.button>
           </div>
         </nav>
@@ -183,7 +181,7 @@ export function Navigation() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/75 backdrop-blur-md"
+              className="fixed inset-0 z-[1000] bg-black/80 backdrop-blur-lg"
               onClick={() => setMobileOpen(false)}
             />
 
@@ -193,22 +191,31 @@ export function Navigation() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
-              className="fixed right-0 top-0 bottom-0 z-50 w-80 flex flex-col glass-strong border-l border-[var(--border)]"
+              className="fixed right-0 top-0 bottom-0 z-[1001] w-[85vw] max-w-sm flex flex-col glass-strong border-l border-[var(--border)] bg-[var(--bg-primary)] shadow-2xl"
             >
               {/* Drawer header */}
-              <div className="flex items-center justify-between px-6 py-5 border-b border-[var(--border)]/60">
-                <div>
-                  <p className="text-base font-bold text-[var(--text)]">Dennis Opoku</p>
-                  <p className="text-xs text-[var(--text-muted)]">Builder · Creator · Founder</p>
+              <div className="flex items-center justify-between px-6 py-6 border-b border-[var(--border)]/60">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--bg-secondary)] p-0.5 flex items-center justify-center">
+                    <img
+                      src="/logo.png"
+                      alt="Dennis Opoku Logo"
+                      className="w-full h-full object-contain rounded-lg dark:invert dark:brightness-125 mix-blend-multiply dark:mix-blend-screen"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-base font-bold text-[var(--text)]">Dennis Opoku</p>
+                    <p className="text-xs text-[var(--text-muted)]">Builder · Creator · Founder</p>
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <ThemeToggle />
                   <button
                     onClick={() => setMobileOpen(false)}
-                    className="p-2 rounded-xl hover:bg-white/8 text-[var(--text-muted)] hover:text-[var(--text)] transition-all"
+                    className="p-2.5 rounded-xl hover:bg-white/10 text-[var(--text-muted)] hover:text-[var(--text)] transition-all cursor-pointer"
                     aria-label="Close menu"
                   >
-                    <X size={20} />
+                    <X size={22} />
                   </button>
                 </div>
               </div>
@@ -230,8 +237,9 @@ export function Navigation() {
                       >
                         <Link
                           href={item.href}
+                          onClick={() => setMobileOpen(false)}
                           className={cn(
-                            "flex items-center justify-between px-5 py-5 rounded-xl text-lg transition-all duration-200 font-bold",
+                            "flex items-center justify-between px-5 py-4.5 rounded-xl text-lg transition-all duration-200 font-bold",
                             isActive
                               ? "text-[var(--text)]"
                               : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-white/5"
@@ -256,6 +264,7 @@ export function Navigation() {
               <div className="px-6 py-6 border-t border-[var(--border)]/60">
                 <Link
                   href="/contact"
+                  onClick={() => setMobileOpen(false)}
                   className="flex items-center justify-center px-6 py-4.5 text-base font-bold rounded-xl text-white transition-all hover:opacity-90 shadow-lg"
                   style={{ backgroundColor: accentColor }}
                 >
