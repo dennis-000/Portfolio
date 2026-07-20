@@ -62,23 +62,20 @@ export function Navigation() {
           {/* ── Logo ── */}
           <Link
             href="/"
-            className="group flex items-center gap-3.5 shrink-0"
+            className="group flex items-center shrink-0 transition-transform duration-300 hover:scale-[1.04]"
           >
-            <div className="relative w-12 h-12 sm:w-[52px] sm:h-[52px] rounded-2xl overflow-hidden shadow-lg group-hover:scale-105 border-2 border-[var(--border)] group-hover:border-[var(--accent)] bg-white dark:bg-slate-900 p-1 transition-all duration-300 flex items-center justify-center">
-              <img
-                src="/logo.png"
-                alt="Dennis Opoku Logo"
-                className="w-full h-full object-contain rounded-xl"
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-base font-bold text-[var(--text)] tracking-wide leading-none">
-                Dennis Opoku
-              </span>
-              <span className="text-xs text-[var(--text-muted)] mt-1 font-medium">
-                Builder
-              </span>
-            </div>
+            {/* Light Mode Frameless Logo */}
+            <img
+              src="/logo-transparent.png"
+              alt="Dennis Opoku Logo"
+              className="h-10 sm:h-12 w-auto object-contain block dark:hidden drop-shadow-sm transition-transform duration-300"
+            />
+            {/* Dark Mode Frameless Logo */}
+            <img
+              src="/logo-white.png"
+              alt="Dennis Opoku Logo"
+              className="h-10 sm:h-12 w-auto object-contain hidden dark:block drop-shadow-[0_0_12px_rgba(255,255,255,0.25)] transition-transform duration-300"
+            />
           </Link>
 
           {/* ── Desktop Links ── */}
@@ -196,17 +193,16 @@ export function Navigation() {
               {/* Drawer header */}
               <div className="flex items-center justify-between px-6 py-6 border-b border-[var(--border)]/60">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl overflow-hidden border-2 border-[var(--border)] bg-white dark:bg-slate-900 p-1 flex items-center justify-center shadow-md">
-                    <img
-                      src="/logo.png"
-                      alt="Dennis Opoku Logo"
-                      className="w-full h-full object-contain rounded-xl"
-                    />
-                  </div>
-                  <div>
-                    <p className="text-base font-bold text-[var(--text)]">Dennis Opoku</p>
-                    <p className="text-xs text-[var(--text-muted)]">Builder · Creator · Founder</p>
-                  </div>
+                  <img
+                    src="/logo-transparent.png"
+                    alt="Dennis Opoku Logo"
+                    className="h-10 w-auto object-contain block dark:hidden"
+                  />
+                  <img
+                    src="/logo-white.png"
+                    alt="Dennis Opoku Logo"
+                    className="h-10 w-auto object-contain hidden dark:block drop-shadow-[0_0_12px_rgba(255,255,255,0.25)]"
+                  />
                 </div>
                 <div className="flex items-center gap-2">
                   <ThemeToggle />

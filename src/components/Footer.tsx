@@ -22,15 +22,17 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-10">
           {/* Brand */}
           <div>
-            <Link href="/" className="flex items-center gap-3 mb-4">
-              <div className="relative w-10 h-10 rounded-xl overflow-hidden border-2 border-[var(--border)] bg-white dark:bg-slate-900 p-0.5 shadow-md flex items-center justify-center">
-                <img
-                  src="/logo.png"
-                  alt="Dennis Opoku Logo"
-                  className="w-full h-full object-contain rounded-lg"
-                />
-              </div>
-              <span className="font-semibold text-sm text-[var(--text)]">Dennis Opoku Asiedu</span>
+            <Link href="/" className="flex items-center gap-3 mb-4 transition-transform hover:scale-[1.03]">
+              <img
+                src="/logo-transparent.png"
+                alt="Dennis Opoku Logo"
+                className="h-9 w-auto object-contain block dark:hidden"
+              />
+              <img
+                src="/logo-white.png"
+                alt="Dennis Opoku Logo"
+                className="h-9 w-auto object-contain hidden dark:block drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+              />
             </Link>
             <p className="text-xs text-[var(--text-muted)] leading-relaxed max-w-xs">
               {PERSONAL.tagline}
