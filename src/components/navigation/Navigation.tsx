@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Search } from "lucide-react";
@@ -63,14 +64,14 @@ export function Navigation() {
             href="/"
             className="group flex items-center gap-3 shrink-0"
           >
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-bold text-white text-lg transition-transform duration-300 group-hover:scale-105"
-              style={{
-                backgroundColor: accentColor,
-                boxShadow: `0 4px 18px rgba(var(--accent-rgb), 0.35)`,
-              }}
-            >
-              D
+            <div className="relative w-11 h-11 rounded-xl overflow-hidden shadow-md group-hover:scale-105 border border-[var(--border)] bg-white p-0.5 transition-transform duration-300 flex items-center justify-center">
+              <Image
+                src="/logo.png"
+                alt="Dennis Opoku Logo"
+                width={44}
+                height={44}
+                className="w-full h-full object-contain rounded-lg"
+              />
             </div>
             <div className="flex flex-col">
               <span className="text-base font-bold text-[var(--text)] tracking-wide leading-none">

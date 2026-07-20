@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { GitBranch, Globe2, AtSign, Mail } from "lucide-react";
 import { PERSONAL, NAV_ITEMS } from "@/lib/data";
 import { usePortfolioStore } from "@/store/portfolio";
@@ -21,13 +22,16 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-10">
           {/* Brand */}
           <div>
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <span
-                className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white"
-                style={{ backgroundColor: accentColor }}
-              >
-                D
-              </span>
+            <Link href="/" className="flex items-center gap-2.5 mb-4">
+              <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-[var(--border)] bg-white p-0.5 shadow-sm flex items-center justify-center">
+                <Image
+                  src="/logo.png"
+                  alt="Dennis Opoku Logo"
+                  width={32}
+                  height={32}
+                  className="w-full h-full object-contain rounded-md"
+                />
+              </div>
               <span className="font-semibold text-sm text-[var(--text)]">Dennis Opoku Asiedu</span>
             </Link>
             <p className="text-xs text-[var(--text-muted)] leading-relaxed max-w-xs">

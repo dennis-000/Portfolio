@@ -45,8 +45,14 @@ export default async function AdminLayout({ children }: { children: ReactNode })
           {/* Brand Header */}
           <div className="flex items-center justify-between mb-8">
             <Link href="/admin" className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white text-sm shadow-md shadow-indigo-500/20">
-                D
+              <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-white/10 bg-white p-0.5 shadow-md shadow-indigo-500/20 flex items-center justify-center">
+                <img
+                  src="/logo.png"
+                  alt="Dennis Opoku Logo"
+                  width={32}
+                  height={32}
+                  className="w-full h-full object-contain rounded-md"
+                />
               </div>
               <span className="font-display font-bold text-sm tracking-wide text-white uppercase">
                 Console OS
