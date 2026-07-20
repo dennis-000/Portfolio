@@ -62,13 +62,13 @@ export function Navigation() {
           {/* ── Logo ── */}
           <Link
             href="/"
-            className="group flex items-center gap-3 shrink-0"
+            className="group flex items-center gap-3.5 shrink-0"
           >
-            <div className="relative w-11 h-11 rounded-xl overflow-hidden shadow-md group-hover:scale-105 border border-[var(--border)] bg-[var(--bg-secondary)] p-1 transition-all duration-300 flex items-center justify-center">
+            <div className="relative w-12 h-12 sm:w-[52px] sm:h-[52px] rounded-2xl overflow-hidden shadow-lg group-hover:scale-105 border-2 border-[var(--border)] group-hover:border-[var(--accent)] bg-white dark:bg-slate-900 p-1 transition-all duration-300 flex items-center justify-center">
               <img
                 src="/logo.png"
                 alt="Dennis Opoku Logo"
-                className="w-full h-full object-contain rounded-lg transition-all dark:invert dark:brightness-125 dark:contrast-125 mix-blend-multiply dark:mix-blend-screen"
+                className="w-full h-full object-contain rounded-xl"
               />
             </div>
             <div className="flex flex-col">
@@ -196,11 +196,11 @@ export function Navigation() {
               {/* Drawer header */}
               <div className="flex items-center justify-between px-6 py-6 border-b border-[var(--border)]/60">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--bg-secondary)] p-0.5 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl overflow-hidden border-2 border-[var(--border)] bg-white dark:bg-slate-900 p-1 flex items-center justify-center shadow-md">
                     <img
                       src="/logo.png"
                       alt="Dennis Opoku Logo"
-                      className="w-full h-full object-contain rounded-lg dark:invert dark:brightness-125 mix-blend-multiply dark:mix-blend-screen"
+                      className="w-full h-full object-contain rounded-xl"
                     />
                   </div>
                   <div>

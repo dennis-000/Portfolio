@@ -22,12 +22,12 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-10">
           {/* Brand */}
           <div>
-            <Link href="/" className="flex items-center gap-2.5 mb-4">
-              <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-[var(--border)] bg-[var(--bg-secondary)] p-0.5 shadow-sm flex items-center justify-center">
+            <Link href="/" className="flex items-center gap-3 mb-4">
+              <div className="relative w-10 h-10 rounded-xl overflow-hidden border-2 border-[var(--border)] bg-white dark:bg-slate-900 p-0.5 shadow-md flex items-center justify-center">
                 <img
                   src="/logo.png"
                   alt="Dennis Opoku Logo"
-                  className="w-full h-full object-contain rounded-md dark:invert dark:brightness-125 mix-blend-multiply dark:mix-blend-screen"
+                  className="w-full h-full object-contain rounded-lg"
                 />
               </div>
               <span className="font-semibold text-sm text-[var(--text)]">Dennis Opoku Asiedu</span>
