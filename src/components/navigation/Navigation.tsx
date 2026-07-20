@@ -64,17 +64,17 @@ export function Navigation() {
             href="/"
             className="group flex items-center shrink-0 transition-transform duration-300 hover:scale-[1.04]"
           >
-            {/* Light Mode Frameless Logo */}
+            {/* Light Mode Tightly Cropped Frameless Logo */}
             <img
               src="/logo-transparent.png"
               alt="Dennis Opoku Logo"
-              className="h-10 sm:h-12 w-auto object-contain block dark:hidden drop-shadow-sm transition-transform duration-300"
+              className="h-11 sm:h-13 md:h-14 w-auto object-contain block dark:hidden drop-shadow-sm transition-transform duration-300"
             />
-            {/* Dark Mode Frameless Logo */}
+            {/* Dark Mode Tightly Cropped Frameless Logo */}
             <img
               src="/logo-white.png"
               alt="Dennis Opoku Logo"
-              className="h-10 sm:h-12 w-auto object-contain hidden dark:block drop-shadow-[0_0_12px_rgba(255,255,255,0.25)] transition-transform duration-300"
+              className="h-11 sm:h-13 md:h-14 w-auto object-contain hidden dark:block drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-transform duration-300"
             />
           </Link>
 
@@ -120,11 +120,11 @@ export function Navigation() {
           </ul>
 
           {/* ── Right actions ── */}
-          <div className="flex items-center gap-2.5 sm:gap-3.5 2xl:gap-4">
+          <div className="flex items-center gap-2 sm:gap-3 2xl:gap-4 shrink-0">
             {/* Search command bar */}
             <button
               onClick={() => setCommandPaletteOpen(true)}
-              className="2xl:hidden p-2.5 rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] transition-all cursor-pointer"
+              className="hidden sm:flex 2xl:hidden p-2.5 rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] transition-all cursor-pointer"
               aria-label="Open search"
             >
               <Search size={18} />
@@ -142,8 +142,10 @@ export function Navigation() {
               <kbd className="text-[10px] opacity-60 font-mono px-1.5 py-0.5 rounded bg-white/10 border border-white/5">⌘K</kbd>
             </button>
 
-            {/* Theme toggle */}
-            <ThemeToggle className="scale-110" />
+            {/* Theme toggle - Hidden on mobile screens to make space for hamburger menu */}
+            <div className="hidden sm:block">
+              <ThemeToggle className="scale-110" />
+            </div>
 
             {/* CTA */}
             <Link
@@ -154,15 +156,15 @@ export function Navigation() {
               Let&apos;s talk
             </Link>
 
-            {/* Mobile hamburger */}
+            {/* Mobile hamburger - Always visible on mobile screens */}
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="xl:hidden w-11 h-11 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text)] hover:bg-white/10 transition-all cursor-pointer z-[1002]"
+              className="xl:hidden w-11 h-11 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text)] hover:bg-white/10 transition-all cursor-pointer z-[1002] shrink-0"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
             >
-              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
             </motion.button>
           </div>
         </nav>
