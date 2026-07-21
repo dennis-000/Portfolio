@@ -35,6 +35,8 @@ const GithubIcon = ({ className, size = 16 }: { className?: string; size?: numbe
   </svg>
 );
 
+import ArchitectureCanvasEditor, { ComponentPipelineStep } from "@/components/admin/ArchitectureCanvasEditor";
+
 export default function AdminProjectsPage() {
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -63,6 +65,13 @@ export default function AdminProjectsPage() {
   const [isPrivate, setIsPrivate] = useState(false);
   const [cover, setCover] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+
+  // "Why?" Engineering Decision Fields
+  const [whyProblem, setWhyProblem] = useState("");
+  const [whyChoice, setWhyChoice] = useState("");
+  const [whyTradeoffs, setWhyTradeoffs] = useState("");
+  const [whyLessons, setWhyLessons] = useState("");
+  const [architectureComponents, setArchitectureComponents] = useState<ComponentPipelineStep[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -96,6 +105,11 @@ export default function AdminProjectsPage() {
     setGithubUrl(project.githubUrl || "");
     setIsPrivate(project.isPrivate || false);
     setCover(project.cover || "");
+    setWhyProblem(project.whyDecision?.problem || "");
+    setWhyChoice(project.whyDecision?.architectureChoice || "");
+    setWhyTradeoffs(project.whyDecision?.tradeoffs || "");
+    setWhyLessons(project.whyDecision?.lessonsLearned || "");
+    setArchitectureComponents(project.architectureComponents || []);
     setIsEditing(true);
   };
 
@@ -115,6 +129,11 @@ export default function AdminProjectsPage() {
     setGithubUrl("");
     setIsPrivate(false);
     setCover("");
+    setWhyProblem("");
+    setWhyChoice("");
+    setWhyTradeoffs("");
+    setWhyLessons("");
+    setArchitectureComponents([]);
     setIsEditing(true);
   };
 
@@ -193,6 +212,13 @@ export default function AdminProjectsPage() {
       githubUrl: githubUrl || undefined,
       isPrivate,
       cover: cover || undefined,
+      whyDecision: (whyProblem || whyChoice) ? {
+        problem: whyProblem,
+        architectureChoice: whyChoice,
+        tradeoffs: whyTradeoffs,
+        lessonsLearned: whyLessons,
+      } : undefined,
+      architectureComponents: architectureComponents.length > 0 ? architectureComponents : undefined,
     };
 
     let updatedProjects = [...data.FEATURED_PROJECTS];
@@ -536,7 +562,56 @@ export default function AdminProjectsPage() {
                     onChange={(e) => setGithubUrl(e.target.value)}
                     className="w-full px-3 py-2 bg-black/40 border border-white/5 rounded-xl text-white outline-none focus:border-indigo-500/40"
                   />
+                {/* "Why?" Engineering Decision Manager Section */}
+              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 space-y-3">
+                <span className="font-bold text-amber-400 text-xs block mb-1 font-mono">
+                  "Why?" Engineering Decision Metadata:
+                </span>
+                <div>
+                  <label className="text-[10px] font-bold text-slate-400 block mb-1">Problem Statement:</label>
+                  <textarea
+                    placeholder="Technical challenge or bottleneck to solve..."
+                    value={whyProblem}
+                    onChange={(e) => setWhyProblem(e.target.value)}
+                    className="w-full h-14 px-3 py-1.5 bg-black/40 border border-white/10 rounded-xl text-xs text-white outline-none resize-none"
+                  />
                 </div>
+                <div>
+                  <label className="text-[10px] font-bold text-slate-400 block mb-1">Architecture Choice:</label>
+                  <textarea
+                    placeholder="Why this stack and system design was selected..."
+                    value={whyChoice}
+                    onChange={(e) => setWhyChoice(e.target.value)}
+                    className="w-full h-14 px-3 py-1.5 bg-black/40 border border-white/10 rounded-xl text-xs text-white outline-none resize-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold text-slate-400 block mb-1">Trade-offs Accepted:</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Higher latency for 94%+ transcription accuracy"
+                    value={whyTradeoffs}
+                    onChange={(e) => setWhyTradeoffs(e.target.value)}
+                    className="w-full px-3 py-1.5 bg-black/40 border border-white/10 rounded-xl text-xs text-white outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold text-slate-400 block mb-1">Key Lessons Learned:</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Streaming audio in 200ms windows drastically reduced latency"
+                    value={whyLessons}
+                    onChange={(e) => setWhyLessons(e.target.value)}
+                    className="w-full px-3 py-1.5 bg-black/40 border border-white/10 rounded-xl text-xs text-white outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* System Architecture Builder Section */}
+              <ArchitectureCanvasEditor
+                components={architectureComponents}
+                onChange={(updated) => setArchitectureComponents(updated)}
+              />
               </div>
 
               <div className="flex gap-4 border-t border-white/5 pt-4">
