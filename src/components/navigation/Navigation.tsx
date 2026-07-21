@@ -5,17 +5,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X, Search, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePortfolioStore } from "@/store/portfolio";
 import { NAV_ITEMS, PERSONAL } from "@/lib/data";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import IntentOnboarding from "@/components/intent/IntentOnboarding";
+import DeveloperHUD from "@/components/developer/DeveloperHUD";
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
-  const { setCommandPaletteOpen, accentColor, accentRgb } = usePortfolioStore();
+  const { setCommandPaletteOpen, accentColor, accentRgb, visitorIntent, setIntentModalOpen } = usePortfolioStore();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 30);
@@ -292,6 +294,10 @@ export function Navigation() {
           </>
         )}
       </AnimatePresence>
+
+      {/* ATLAS V2 Global Floating Components */}
+      <IntentOnboarding />
+      <DeveloperHUD />
     </>
   );
 }

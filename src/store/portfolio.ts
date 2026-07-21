@@ -2,12 +2,27 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export type JourneyId = "engineering" | "ai" | "creative" | "ventures" | "design" | null;
+export type VisitorIntent = "hiring-engineer" | "ai-expertise" | "creative-media" | "startup-ventures" | "general" | null;
 export type Theme = "dark" | "light" | "system";
 
 interface PortfolioStore {
   // Journey / persona
   activeJourney: JourneyId;
   setJourney: (journey: JourneyId) => void;
+
+  // Visitor Intent Engine
+  visitorIntent: VisitorIntent;
+  setVisitorIntent: (intent: VisitorIntent) => void;
+  intentModalOpen: boolean;
+  setIntentModalOpen: (open: boolean) => void;
+
+  // Recruiter Mode
+  recruiterMode: boolean;
+  toggleRecruiterMode: (active?: boolean) => void;
+
+  // Developer HUD Mode
+  developerMode: boolean;
+  toggleDeveloperMode: (active?: boolean) => void;
 
   // Theme
   theme: Theme;
@@ -42,6 +57,14 @@ const JOURNEY_ACCENTS: Record<string, { color: string; rgb: string }> = {
   default: { color: "#06b6d4", rgb: "6, 182, 212" },
 };
 
+const INTENT_MAPPING: Record<NonNullable<VisitorIntent>, { journey: JourneyId; accent: string; rgb: string }> = {
+  "hiring-engineer": { journey: "engineering", accent: "#6366f1", rgb: "99, 102, 241" },
+  "ai-expertise": { journey: "ai", accent: "#8b5cf6", rgb: "139, 92, 246" },
+  "creative-media": { journey: "creative", accent: "#f59e0b", rgb: "245, 158, 11" },
+  "startup-ventures": { journey: "ventures", accent: "#10b981", rgb: "16, 185, 129" },
+  "general": { journey: null, accent: "#06b6d4", rgb: "6, 182, 212" },
+};
+
 export const usePortfolioStore = create<PortfolioStore>()(
   persist(
     (set) => ({
@@ -55,12 +78,40 @@ export const usePortfolioStore = create<PortfolioStore>()(
           accentColor: accent.color,
           accentRgb: accent.rgb,
         });
-        // Update CSS custom properties
         if (typeof document !== "undefined") {
           document.documentElement.style.setProperty("--accent", accent.color);
           document.documentElement.style.setProperty("--accent-rgb", accent.rgb);
         }
       },
+
+      visitorIntent: null,
+      setVisitorIntent: (intent) => {
+        if (!intent) {
+          set({ visitorIntent: null });
+          return;
+        }
+        const mapping = INTENT_MAPPING[intent];
+        const isRecruiter = intent === "hiring-engineer";
+        set({
+          visitorIntent: intent,
+          activeJourney: mapping.journey,
+          accentColor: mapping.accent,
+          accentRgb: mapping.rgb,
+          recruiterMode: isRecruiter,
+        });
+        if (typeof document !== "undefined") {
+          document.documentElement.style.setProperty("--accent", mapping.accent);
+          document.documentElement.style.setProperty("--accent-rgb", mapping.rgb);
+        }
+      },
+      intentModalOpen: false,
+      setIntentModalOpen: (open) => set({ intentModalOpen: open }),
+
+      recruiterMode: false,
+      toggleRecruiterMode: (active) => set((s) => ({ recruiterMode: active !== undefined ? active : !s.recruiterMode })),
+
+      developerMode: false,
+      toggleDeveloperMode: (active) => set((s) => ({ developerMode: active !== undefined ? active : !s.developerMode })),
 
       theme: "dark",
       setTheme: (theme) => set({ theme }),
@@ -90,6 +141,9 @@ export const usePortfolioStore = create<PortfolioStore>()(
       name: "dennis-portfolio-store",
       partialize: (state) => ({
         activeJourney: state.activeJourney,
+        visitorIntent: state.visitorIntent,
+        recruiterMode: state.recruiterMode,
+        developerMode: state.developerMode,
         theme: state.theme,
         accentColor: state.accentColor,
         accentRgb: state.accentRgb,

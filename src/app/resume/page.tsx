@@ -79,6 +79,51 @@ export default function ResumePage() {
     <div className="min-h-screen pt-28 sm:pt-32 lg:pt-36 pb-20">
       <div className="max-w-screen-2xl mx-auto px-8 sm:px-12 md:px-16 lg:px-16 xl:px-20">
         
+        {/* Role-Based Resume Presets Bar */}
+        <div className="mb-8 p-4 rounded-2xl glass border border-[var(--border)] bg-[var(--bg-secondary)]/50 print:hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <Sparkles size={18} className="text-indigo-400" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[var(--text)]">
+              ATLAS V2 Role Presets:
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 text-xs font-bold">
+            {[
+              { id: "software", label: "Software Engineer", accent: "indigo" },
+              { id: "ai", label: "AI Architect", accent: "purple" },
+              { id: "creative", label: "Creative Technologist", accent: "amber" },
+              { id: "founder", label: "Founder / Entrepreneur", accent: "emerald" },
+            ].map((role) => (
+              <button
+                key={role.id}
+                onClick={() => {
+                  if (role.id === "software") {
+                    setSelectedAccent(ACCENTS[1]); // Indigo
+                    setShowProjects(true);
+                    setShowVentures(true);
+                  } else if (role.id === "ai") {
+                    setSelectedAccent(ACCENTS[2]); // Violet
+                    setShowProjects(true);
+                    setShowVentures(false);
+                  } else if (role.id === "creative") {
+                    setSelectedAccent(ACCENTS[5]); // Amber
+                    setShowProjects(true);
+                    setShowVentures(true);
+                  } else {
+                    setSelectedAccent(ACCENTS[3]); // Emerald
+                    setShowProjects(false);
+                    setShowVentures(true);
+                  }
+                }}
+                className="px-3 py-1.5 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/10 hover:border-white/20 transition-all text-slate-200 cursor-pointer"
+              >
+                {role.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        
         {/* Header (Screen-only) */}
         <div className="mb-12 flex items-end justify-between flex-wrap gap-6 print:hidden">
           <div>
