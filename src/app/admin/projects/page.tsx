@@ -615,7 +615,6 @@ export default function AdminProjectsPage() {
                 components={architectureComponents}
                 onChange={(updated) => setArchitectureComponents(updated)}
               />
-              </div>
 
               <div className="flex gap-4 border-t border-white/5 pt-4">
                 <label className="flex items-center gap-2 cursor-pointer font-bold uppercase tracking-wider text-[10px] text-[var(--text-muted)]">
