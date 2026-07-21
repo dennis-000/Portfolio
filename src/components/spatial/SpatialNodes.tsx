@@ -71,17 +71,14 @@ export default function SpatialNodes({
       {connectionLines.map((line, idx) => {
         const points = [line.start, line.end];
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        return (
-          <line key={idx} geometry={geometry}>
-            <lineBasicMaterial
-              attach="material"
-              color={line.color}
-              linewidth={line.active ? 2.5 : 1}
-              transparent
-              opacity={line.active ? 0.9 : 0.25}
-            />
-          </line>
-        );
+        const material = new THREE.LineBasicMaterial({
+          color: line.color,
+          linewidth: line.active ? 2.5 : 1,
+          transparent: true,
+          opacity: line.active ? 0.9 : 0.25,
+        });
+        const lineMesh = new THREE.Line(geometry, material);
+        return <primitive key={idx} object={lineMesh} />;
       })}
 
       {/* 3D Interactive Nodes */}
