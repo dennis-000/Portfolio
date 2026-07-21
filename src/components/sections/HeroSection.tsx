@@ -100,12 +100,12 @@ export function HeroSection() {
           {/* LEFT: Text */}
           <div className="flex flex-col justify-center relative z-10 text-center lg:text-left">
 
-            {/* Location & Remote badge (Available for Hire is prominently displayed in the header on mobile) */}
+            {/* Location & Remote badge (Available for Hire is displayed in the header on mobile & tablet screens) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className="hidden sm:inline-flex self-center lg:self-start items-center gap-2.5 px-4.5 py-2.5 rounded-full glass border border-[var(--border)] text-sm text-[var(--text-muted)] mb-8"
+              className="hidden xl:inline-flex self-center lg:self-start items-center gap-2.5 px-4.5 py-2.5 rounded-full glass border border-[var(--border)] text-sm text-[var(--text-muted)] mb-8"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               Ghana, West Africa · Worldwide Remote
