@@ -570,6 +570,11 @@
       "accent": "#06b6d4"
     },
     {
+      "label": "Spatial 3D",
+      "href": "/atlas",
+      "accent": "#8b5cf6"
+    },
+    {
       "label": "Graph",
       "href": "/graph",
       "accent": "#a855f7"

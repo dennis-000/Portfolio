@@ -187,10 +187,20 @@ export default function KnowledgeGraph() {
             <Layers size={18} />
           </div>
           <div>
-            <h3 className="font-bold text-lg text-[var(--text)]">Interactive Knowledge Graph</h3>
+            <h3 className="font-bold text-lg text-[var(--text)] flex items-center gap-2">
+              Interactive Knowledge Graph
+            </h3>
             <p className="text-xs text-[var(--text-muted)]">Click nodes to discover cross-disciplinary connections</p>
           </div>
         </div>
+
+        <Link
+          href="/atlas"
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-all shadow-md cursor-pointer"
+        >
+          <Sparkles size={13} />
+          <span>Launch 3D Spatial Universe</span>
+        </Link>
 
         <div className="flex items-center gap-1.5 p-1 rounded-xl bg-white/[0.04] border border-[var(--border)] text-xs font-semibold">
           {["all", "discipline", "tech", "project", "skill"].map((filter) => (
