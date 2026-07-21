@@ -6,6 +6,9 @@ import { TECH_STACK, FEATURED_PROJECTS } from "@/lib/data";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { InteractiveCodePreview } from "./InteractiveCodePreview";
+import TimeMachine from "@/components/interactive/TimeMachine";
+import DecisionEngine from "@/components/interactive/DecisionEngine";
+import BuildVelocity from "@/components/interactive/BuildVelocity";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ARCHITECTURE_NODES: { id: string; label: string; sublabel: string; x: number; y: number; icon: React.ComponentType<any>; color: string }[] = [
@@ -222,6 +225,21 @@ export function EngineeringPage() {
         <div className="mb-16 max-w-3xl mx-auto w-full">
           <h2 className="text-xl font-bold text-[var(--text)] mb-6 font-display text-center">Code Preview</h2>
           <InteractiveCodePreview />
+        </div>
+
+        {/* ATLAS V2 Recruiter Decision Engine */}
+        <div className="mb-16">
+          <DecisionEngine />
+        </div>
+
+        {/* ATLAS V2 Career Time Machine */}
+        <div className="mb-16">
+          <TimeMachine />
+        </div>
+
+        {/* ATLAS V2 Shipping Velocity Timeline */}
+        <div className="mb-16">
+          <BuildVelocity />
         </div>
 
         {/* Featured engineering projects */}

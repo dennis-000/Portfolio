@@ -83,6 +83,10 @@ import { syncDatabase } from "@/lib/data";
 import MatrixRain from "@/components/ui/MatrixRain";
 import CanvasEffects from "@/components/ui/CanvasEffects";
 
+import XRayOverlay from "@/components/developer/XRayOverlay";
+import MemoryLaneToast from "@/components/interactive/MemoryLaneToast";
+import KonamiEasterEgg from "@/components/interactive/KonamiEasterEgg";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -99,6 +103,9 @@ export default async function RootLayout({
           <CanvasEffects />
           <Navigation />
           <CommandPalette />
+          <XRayOverlay />
+          <MemoryLaneToast />
+          <KonamiEasterEgg />
           <main>{children}</main>
           <Footer />
           <FloatingChat />
