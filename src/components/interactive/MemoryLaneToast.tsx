@@ -42,11 +42,11 @@ export default function MemoryLaneToast() {
               Since your last visit: ATLAS V2 Intent Engine & Recruiter Candidate Briefs released.
             </p>
             <Link
-              href="/mission-control"
+              href="/graph"
               onClick={() => setShowToast(false)}
               className="inline-flex items-center gap-1 font-bold text-indigo-400 hover:text-indigo-300 mt-2 text-xs"
             >
-              See Mission Control Vitals <ArrowRight size={12} />
+              Explore Knowledge Graph <ArrowRight size={12} />
             </Link>
           </div>
         </div>

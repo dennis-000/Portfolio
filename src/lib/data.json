@@ -570,11 +570,6 @@
       "accent": "#06b6d4"
     },
     {
-      "label": "Mission Control",
-      "href": "/mission-control",
-      "accent": "#10b981"
-    },
-    {
       "label": "Graph",
       "href": "/graph",
       "accent": "#a855f7"
