@@ -562,7 +562,10 @@ export default function AdminProjectsPage() {
                     onChange={(e) => setGithubUrl(e.target.value)}
                     className="w-full px-3 py-2 bg-black/40 border border-white/5 rounded-xl text-white outline-none focus:border-indigo-500/40"
                   />
-                {/* "Why?" Engineering Decision Manager Section */}
+                </div>
+              </div>
+
+              {/* "Why?" Engineering Decision Manager Section */}
               <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 space-y-3">
                 <span className="font-bold text-amber-400 text-xs block mb-1 font-mono">
                   "Why?" Engineering Decision Metadata:
