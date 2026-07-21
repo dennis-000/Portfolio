@@ -108,7 +108,7 @@ export function HeroSection() {
               className="inline-flex self-center lg:self-start items-center gap-2.5 px-4.5 py-2.5 rounded-full glass border border-[var(--border)] text-sm text-[var(--text-muted)] mb-8"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              Available for work · Ghana, West Africa
+              Based in Ghana, West Africa · Worldwide Remote
             </motion.div>
 
             {/* Rotating discipline pill */}
