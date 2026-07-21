@@ -101,7 +101,7 @@ export function Navigation() {
 
           {/* ── Desktop Links ── */}
           <ul
-            className="hidden xl:flex items-center gap-1.5 2xl:gap-2.5"
+            className="hidden lg:flex items-center gap-0.5 2xl:gap-1.5 overflow-hidden"
             role="navigation"
             aria-label="Main navigation"
           >
@@ -112,7 +112,7 @@ export function Navigation() {
                   <Link
                     href={item.href}
                     className={cn(
-                      "relative flex items-center gap-2 px-3 2xl:px-3.5 py-2.5 text-sm 2xl:text-[15px] rounded-xl transition-all duration-200 font-bold whitespace-nowrap",
+                      "relative flex items-center gap-1.5 px-2 2xl:px-2.5 py-2 text-xs 2xl:text-[13px] rounded-xl transition-all duration-200 font-bold whitespace-nowrap",
                       isActive
                         ? "text-[var(--text)]"
                         : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-white/5"
@@ -141,37 +141,37 @@ export function Navigation() {
           </ul>
 
           {/* ── Right actions ── */}
-          <div className="flex items-center gap-2 sm:gap-3 2xl:gap-4 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-2.5 2xl:gap-3.5 shrink-0">
             {/* Search command bar */}
             <button
               onClick={() => setCommandPaletteOpen(true)}
-              className="hidden sm:flex 2xl:hidden p-2.5 rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] transition-all cursor-pointer"
+              className="hidden sm:flex 2xl:hidden p-2 rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] transition-all cursor-pointer"
               aria-label="Open search"
             >
-              <Search size={18} />
+              <Search size={16} />
             </button>
 
             <button
               onClick={() => setCommandPaletteOpen(true)}
-              className="hidden 2xl:flex items-center justify-between gap-3 w-40 2xl:w-44 px-4 py-2.5 text-sm rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--accent)]/50 transition-all duration-205 cursor-pointer"
+              className="hidden 2xl:flex items-center justify-between gap-2.5 w-36 2xl:w-40 px-3.5 py-2 text-xs rounded-xl glass border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--accent)]/50 transition-all duration-205 cursor-pointer"
               aria-label="Open command palette"
             >
-              <div className="flex items-center gap-2">
-                <Search size={16} />
+              <div className="flex items-center gap-1.5">
+                <Search size={14} />
                 <span>Search...</span>
               </div>
-              <kbd className="text-[10px] opacity-60 font-mono px-1.5 py-0.5 rounded bg-white/10 border border-white/5">⌘K</kbd>
+              <kbd className="text-[9px] opacity-60 font-mono px-1 py-0.5 rounded bg-white/10 border border-white/5">⌘K</kbd>
             </button>
 
-            {/* Theme toggle - Hidden on mobile screens to make space for hamburger menu */}
+            {/* Theme toggle */}
             <div className="hidden sm:block">
-              <ThemeToggle className="scale-110" />
+              <ThemeToggle className="scale-100" />
             </div>
 
-            {/* CTA */}
+            {/* CTA — Always visible on desktop & tablet screens */}
             <Link
               href="/contact"
-              className="hidden md:inline-flex items-center px-4.5 2xl:px-5 py-2.5 2xl:py-3 text-sm 2xl:text-[15px] font-bold rounded-xl text-white transition-all duration-200 hover:opacity-95 hover:scale-[1.03] shadow-md whitespace-nowrap"
+              className="hidden sm:inline-flex items-center px-4 2xl:px-5 py-2 2xl:py-2.5 text-xs 2xl:text-sm font-bold rounded-xl text-white transition-all duration-200 hover:opacity-95 hover:scale-[1.03] shadow-md whitespace-nowrap shrink-0"
               style={{ backgroundColor: accentColor, boxShadow: `0 4px 18px ${accentColor}40` }}
             >
               Let&apos;s talk
